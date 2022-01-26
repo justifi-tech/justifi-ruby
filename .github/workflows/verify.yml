@@ -1,0 +1,52 @@
+name: verify
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_call:
+
+jobs:
+  linters:
+    name: Linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 3.0.1 # Change when .ruby-version updated
+      - name: Run linters
+        run: |
+           bundle exec rubocop
+      - name: Run security checks
+        run: |
+           bundle exec brakeman -q -w2
+
+           # Tests are commented out because we're creating payments on staging everytime
+           # Adding webmock should solve
+           # tests:
+           #   name: Tests
+           #   runs-on: ubuntu-latest
+           #   services:
+           #   steps:
+           #     - name: Checkout code
+           #       uses: actions/checkout@v2
+
+           #     - name: Setup Ruby and install gems
+           #       uses: ruby/setup-ruby@v1
+           #       with:
+           #         bundler-cache: true
+           #         ruby-version: 3.0.1 # Change when .ruby-version updated
+
+           #     - name: Run tests
+           #       env:
+           #         CLIENT_ID: live_DBnQFImTcoMg5bmaSFacXR54YXJfqKda
+           #         CLIENT_SECRET: live_tdYj_wdFiyvGo6WpHKDVV5wKxAoDNUgU76S25m3m73i5kAiYH1PRCsCLE8_mX2iN
+           #         API_STAGING_BASE_URL: https://api.justifi-staging.com
+
+           #       run: bundle exec rspec

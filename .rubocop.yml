@@ -1,10 +1,55 @@
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
-
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+# https://docs.rubocop.org/rubocop/configuration
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/*'
+    - 'vendor/**/*'
+  TargetRubyVersion: 3.0.1
 
 Layout/LineLength:
-  Max: 120
+  Max: 150
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+
+Metrics/AbcSize:
+  Max: 40
+
+Metrics/CyclomaticComplexity:
+  Max: 8
+
+Metrics/PerceivedComplexity:
+  Max: 9
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Max: 150
+
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: true
+
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    find: detect
+
+Style/Documentation:
+  Enabled: false
+
