@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'json'
+require "json"
 
 module Justifi
   module Util
@@ -9,7 +9,7 @@ module Justifi
       when Hash
         params.dup.to_json
       else
-        raise TypeError, 'normalize_paarms expects a hash'
+        raise TypeError, "normalize_paarms expects a hash"
       end
     end
 
@@ -20,8 +20,8 @@ module Justifi
     # diffent naming schemes.
     def self.normalize_headers(headers)
       headers.each_with_object({}) do |(k, v), new_headers|
-        k = k.to_s.tr('_', '-') if k.is_a?(Symbol)
-        k = k.split('-').reject(&:empty?).map(&:capitalize).join('-')
+        k = k.to_s.tr("_", "-") if k.is_a?(Symbol)
+        k = k.split("-").reject(&:empty?).map(&:capitalize).join("-")
 
         new_headers[k] = v
       end

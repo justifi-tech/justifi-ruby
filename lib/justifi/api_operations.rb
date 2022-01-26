@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module Justifi
   module APIOperations
     module ClassMethods
       def create_post_request(uri, body = {}, headers = {})
-        request = Net::HTTP::Post.new(uri, { 'Content-Type' => 'application/json' }.merge(headers))
+        request = Net::HTTP::Post.new(uri, {"Content-Type" => "application/json"}.merge(headers))
         request.body = body
         request
       end

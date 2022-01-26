@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'forwardable'
+require "forwardable"
 
 module Justifi
   class Configuration
     attr_accessor :client_id
     attr_accessor :client_secret
 
-    CAPITAL_BASE_URL = 'https://capital.justifi-staging.com'
-    VAULT_BASE_URL = 'https://api.justifi-staging.com'
+    CAPITAL_BASE_URL = "https://capital.justifi-staging.com"
+    VAULT_BASE_URL = "https://api.justifi-staging.com"
 
     def self.setup
       new.tap do |instance|
@@ -17,10 +17,10 @@ module Justifi
     end
 
     def credentials
-      raise Justifi::BadCredentialsError, 'credentials not set' if bad_credentials?
+      raise Justifi::BadCredentialsError, "credentials not set" if bad_credentials?
 
       {
-        client_id:     client_id,
+        client_id: client_id,
         client_secret: client_secret
       }
     end
@@ -36,7 +36,7 @@ module Justifi
     end
 
     def clear_credentials
-      @client_id     = nil
+      @client_id = nil
       @client_secret = nil
     end
   end

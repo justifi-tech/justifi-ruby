@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'justifi/api_operations'
+require "justifi/api_operations"
 
-require 'justifi/util'
+require "justifi/util"
 
-require 'justifi/version'
-require 'justifi/configuration'
-require 'justifi/oauth'
+require "justifi/version"
+require "justifi/configuration"
+require "justifi/oauth"
 
 module Justifi
   @config = Justifi::Configuration.setup
