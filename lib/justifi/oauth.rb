@@ -4,10 +4,11 @@ module Justifi
   module OAuth
     module OAuthOperations
       extend APIOperations::ClassMethods
+
       def self.execute_post_request(path, body, headers)
         # normalize params here
         # Util.normalize_body
-        oauth_uri = URI("#{Justifi.capital_base_url}#{path}")
+        oauth_uri = URI("#{Justifi.api_url}#{path}")
         super(oauth_uri, body, headers)
       end
     end

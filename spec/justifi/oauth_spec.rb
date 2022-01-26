@@ -3,8 +3,9 @@
 RSpec.describe Justifi::OAuth do
   context "access_token" do
     it "gets a token" do
-      Justifi.client_id = ENV["CLIENT_ID"]
-      Justifi.client_secret = ENV["CLIENT_SECRET"]
+      Justifi.client_id = ENV['CLIENT_ID']
+      Justifi.client_secret = ENV['CLIENT_SECRET']
+      Justifi.use_staging
       expect(Justifi::OAuth.token).to be_a(String)
     end
 
