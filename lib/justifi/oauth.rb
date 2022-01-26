@@ -19,7 +19,7 @@ module Justifi
         "/oauth/token", params, opts
       )
 
-      JSON.parse(res.body)['access_token']
+      JSON.parse(res.body)["access_token"]
     end
   end
 end

@@ -1,12 +1,14 @@
-require 'forwardable'
+# frozen_string_literal: true
+
+require "forwardable"
 
 module Justifi
   class Configuration
     attr_accessor :client_id
     attr_accessor :client_secret
 
-    CAPITAL_BASE_URL = "https://capital.justifi-staging.com".freeze
-    VAULT_BASE_URL = "https://api.justifi-staging.com".freeze
+    CAPITAL_BASE_URL = "https://capital.justifi-staging.com"
+    VAULT_BASE_URL = "https://api.justifi-staging.com"
 
     def self.setup
       new.tap do |instance|
@@ -34,7 +36,7 @@ module Justifi
     end
 
     def clear_credentials
-      @client_id     = nil
+      @client_id = nil
       @client_secret = nil
     end
   end

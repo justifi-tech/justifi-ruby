@@ -1,10 +1,12 @@
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
+require: standard
 
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+inherit_gem:
+  standard: config/base.yml
 
-Layout/LineLength:
-  Max: 120
+AllCops:
+  Exclude:
+    - "vendor/**/*"
+    - "bin/*"
+    - "db/schema.rb"
+    - "tmp/**/*"
+

@@ -1,0 +1,44 @@
+name: verify
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  linters:
+    name: Linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 3.0.1 # Change when .ruby-version updated
+      - name: Run linters
+        run: |
+           bundle exec rubocop
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 3.0.1 # Change when .ruby-version updated
+
+      - name: Run tests
+        env:
+          CLIENT_ID: ${{secrets.CLIENT_STAGING_ID }}
+          CLIENT_SECRET: ${{secrets.CLIENT_SECRET_STAGING }}
+          API_STAGING_BASE_URL: https://api.justifi-staging.com
+        run: bundle exec rspec
