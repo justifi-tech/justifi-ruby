@@ -5,7 +5,7 @@ RSpec.describe Justifi do
     expect(Justifi::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "get credentials" do
+    expect(Justifi.credentials).to be_a(Hash)
   end
 end
