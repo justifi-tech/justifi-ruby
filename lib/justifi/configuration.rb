@@ -8,9 +8,7 @@ module Justifi
     attr_accessor :client_secret
     attr_accessor :access_token
     attr_accessor :environment
-
-    API_STAGING_BASE_URL = "https://api.justifi-staging.com".freeze
-    API_BASE_URL = "https://api.justifi.ai".freeze
+    attr_accessor :cache
 
     def self.setup
       new.tap do |instance|
@@ -40,11 +38,11 @@ module Justifi
     def api_url
       case environment
       when 'production'
-        API_BASE_URL
+        ENV['API_BASE_URL']
       when 'staging'
-        API_STAGING_BASE_URL
+        ENV['API_STAGING_BASE_URL']
       else
-        API_BASE_URL
+        ENV['API_BASE_URL']
       end
     end
 

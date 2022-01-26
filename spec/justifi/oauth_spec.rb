@@ -9,8 +9,12 @@ RSpec.describe Justifi::OAuth do
       expect(Justifi::OAuth.token).to be_a(String)
     end
 
+    it "succeds with cache values" do
+      expect(Justifi::OAuth.token).to be_a(String)
+    end
+
     it "fails with bad credentials" do
-      Justifi.clear_credentials
+      Justifi.clear
       expect { Justifi::OAuth.token }.to raise_error(Justifi::BadCredentialsError)
     end
   end
