@@ -11,11 +11,11 @@ module Justifi
         request
       end
 
-      def execute_post_request(path, body, _headers)
+      def execute_post_request(path, body, headers)
         uri = URI("#{Justifi.api_url}#{path}")
 
         response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http|
-          request = create_post_request(uri, body)
+          request = create_post_request(uri, body, headers)
           http.request request
         }
 

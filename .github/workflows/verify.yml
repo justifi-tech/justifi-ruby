@@ -40,5 +40,6 @@ jobs:
         env:
           CLIENT_ID: ${{secrets.CLIENT_STAGING_ID }}
           CLIENT_SECRET: ${{secrets.CLIENT_SECRET_STAGING }}
-          API_STAGING_BASE_URL: https://api.justifi-staging.com
+          API_STAGING_BASE_URL: ${{secrets.API_STAGING_BASE_URL}}
+          ENVIRONMENT: ${{secrets.ENVIRONMENT}}
         run: bundle exec rspec

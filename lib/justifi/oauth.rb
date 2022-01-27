@@ -11,21 +11,23 @@ module Justifi
       end
     end
 
-    def self.success?(response)
-      !response.nil? && response.http_status == 200
-    end
+    class << self
+      def success?(response)
+        !response.nil? && response.http_status == 200
+      end
 
-    def self.token(params = {}, headers = {})
-      token = Justifi.cache.get(:access_token)
-      return token unless token.nil?
+      def get_token(params = {}, headers = {})
+        token = Justifi.cache.get(:access_token)
+        return token unless token.nil?
 
-      response = OAuthOperations.execute_post_request(
-        "/oauth/token", params, headers
-      )
+        response = OAuthOperations.execute_post_request(
+          "/oauth/token", params, headers
+        )
 
-      raise InvalidHttpResponseError.new(response: response) unless success?(response)
+        raise InvalidHttpResponseError.new(response: response) unless success?(response)
 
-      Justifi.cache.set_and_return(:access_token, response.data[:access_token])
+        Justifi.cache.set_and_return(:access_token, response.data[:access_token])
+      end
     end
   end
 end

@@ -31,6 +31,7 @@ module Justifi
     def_delegators :@config, :use_staging, :use_staging
     def_delegators :@config, :use_production, :use_production
     def_delegators :@config, :api_url, :api_url
+
     def_delegators :@cache, :clear_cache, :clear_cache
 
     def clear
@@ -39,11 +40,11 @@ module Justifi
     end
 
     def setup(client_id:, client_secret:, environment:)
-      @config = Justifi::Configuration.setup do |config|
+      @config = Justifi::Configuration.setup { |config|
         config.client_id = client_id
         config.client_secret = client_secret
         config.environment = environment
-      end
+      }
     end
 
     def token
