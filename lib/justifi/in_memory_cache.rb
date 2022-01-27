@@ -2,7 +2,7 @@ module Justifi
   class InMemoryCache
     attr_reader :data
 
-    HALF_DAY_IN_SECONDS = 43200.freeze
+    HALF_DAY_IN_SECONDS = 43200
 
     def initialize
       @data = {}
@@ -26,7 +26,7 @@ module Justifi
     end
 
     def expirable_value(value, expiration)
-      { value: value, expiration: expiration }
+      {value: value, expiration: expiration}
     end
 
     def get(key)

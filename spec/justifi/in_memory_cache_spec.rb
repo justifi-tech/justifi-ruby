@@ -8,7 +8,7 @@ RSpec.describe Justifi::InMemoryCache do
 
     context "with preload data" do
       it do
-        data = { 'key1' => 'value1' }
+        data = {"key1" => "value1"}
         Justifi.cache.init(data)
         expect(Justifi.cache.data[Justifi.cache.data.keys.first][:value])
           .to include(data.values.first)
@@ -34,9 +34,8 @@ RSpec.describe Justifi::InMemoryCache do
 
     context "with return" do
       it do
-        expect(Justifi.cache.set_and_return(:some_key, "some_value")).to eq('some_value')
+        expect(Justifi.cache.set_and_return(:some_key, "some_value")).to eq("some_value")
       end
     end
   end
 end
-

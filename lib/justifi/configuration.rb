@@ -37,21 +37,21 @@ module Justifi
 
     def api_url
       case environment
-      when 'production'
-        ENV['API_BASE_URL']
-      when 'staging'
-        ENV['API_STAGING_BASE_URL']
+      when "production"
+        ENV["API_BASE_URL"]
+      when "staging"
+        ENV["API_STAGING_BASE_URL"]
       else
-        ENV['API_BASE_URL']
+        ENV["API_BASE_URL"]
       end
     end
 
     def use_production
-      @environment = 'production'
+      @environment = "production"
     end
 
     def use_staging
-      @environment = 'staging'
+      @environment = "staging"
     end
   end
 end

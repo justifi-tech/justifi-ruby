@@ -5,25 +5,27 @@ module Justifi
     module OAuthOperations
       extend APIOperations::ClassMethods
 
-      def self.execute_post_request(path, body, headers)
-        # normalize params here
-        # Util.normalize_body
-        oauth_uri = URI("#{Justifi.api_url}#{path}")
-        super(oauth_uri, body, headers)
+      def self.execute_post_request(path, params, headers)
+        params = Util.normalize_params(params.merge(Justifi.credentials))
+        super(path, params, headers)
       end
     end
 
-    def self.token(params = {}, opts = {})
+    def self.success?(response)
+      !response.nil? && response.http_status == 200
+    end
+
+    def self.token(params = {}, headers = {})
       token = Justifi.cache.get(:access_token)
       return token unless token.nil?
 
-      params = Util.normalize_params(params.merge(Justifi.credentials))
-
-      res = OAuthOperations.execute_post_request(
-        "/oauth/token", params, opts
+      response = OAuthOperations.execute_post_request(
+        "/oauth/token", params, headers
       )
 
-      Justifi.cache.set_and_return(:access_token, JSON.parse(res.body)['access_token'])
+      raise InvalidHttpResponseError.new(response: response) unless success?(response)
+
+      Justifi.cache.set_and_return(:access_token, response.data[:access_token])
     end
   end
 end

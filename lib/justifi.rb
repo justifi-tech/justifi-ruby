@@ -3,10 +3,13 @@
 require "justifi/api_operations"
 
 require "justifi/util"
+require "justifi/justifi_response"
+require "justifi/justifi_error"
 
 require "justifi/version"
 require "justifi/configuration"
 require "justifi/oauth"
+require "justifi/payment"
 require "justifi/in_memory_cache"
 
 module Justifi
@@ -24,6 +27,7 @@ module Justifi
     def_delegators :@config, :credentials, :credentials
     def_delegators :@config, :credentials=, :credentials=
     def_delegators :@config, :clear_credentials, :clear_credentials
+    def_delegators :@config, :environment=, :environment
     def_delegators :@config, :use_staging, :use_staging
     def_delegators :@config, :use_production, :use_production
     def_delegators :@config, :api_url, :api_url
@@ -32,6 +36,18 @@ module Justifi
     def clear
       Justifi.clear_cache
       Justifi.clear_credentials
+    end
+
+    def setup(client_id:, client_secret:, environment:)
+      @config = Justifi::Configuration.setup do |config|
+        config.client_id = client_id
+        config.client_secret = client_secret
+        config.environment = environment
+      end
+    end
+
+    def token
+      Justifi.cache.get(:access_token)
     end
   end
 
