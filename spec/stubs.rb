@@ -2,6 +2,10 @@ require "securerandom"
 
 module Stubs
   VALID_ACCESS_TOKEN = "valid_access_token"
+  DEFAULT_HEADERS = {
+    "Content-Type" => "application/json",
+    "User-Agent" => "justifi-ruby-#{Justifi::VERSION}"
+  }
 
   class OAuth
     class << self
@@ -9,7 +13,7 @@ module Stubs
         response_body = {access_token: VALID_ACCESS_TOKEN}.to_json
         body = {client_id: Justifi.client_id, client_secret: Justifi.client_secret}.to_json
         WebMock.stub_request(:post, "#{Justifi.api_url}/oauth/token")
-          .with(body: body)
+          .with(body: body, headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
 
@@ -17,7 +21,7 @@ module Stubs
         response_body = {error: {code: "resource_not_found", message: "Resource not found"}}.to_json
         body = {client_id: Justifi.client_id, client_secret: Justifi.client_secret}.to_json
         WebMock.stub_request(:post, "#{Justifi.api_url}/oauth/token")
-          .with(body: body)
+          .with(body: body, headers: DEFAULT_HEADERS)
           .to_return(status: 404, body: response_body, headers: {})
       end
     end
@@ -43,7 +47,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_methods")
-          .with(body: params.to_json)
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
           .to_return(status: 201, body: response_body, headers: {})
       end
     end
@@ -82,13 +86,13 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
-          .with(body: params.to_json)
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
           .to_return(status: 201, body: response_body, headers: {})
       end
 
       def fail_create
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
-          .with(body: {})
+          .with(body: {}, headers: DEFAULT_HEADERS)
           .to_return(status: 404, body: "{}", headers: {})
       end
     end

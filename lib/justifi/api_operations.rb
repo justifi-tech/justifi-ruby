@@ -25,7 +25,9 @@ module Justifi
       end
 
       private def create_post_request(uri, body = {}, headers = {})
-        request = Net::HTTP::Post.new(uri, {"Content-Type" => "application/json"}.merge(headers))
+        headers["Content-Type"] = "application/json"
+        headers["User-Agent"] = "justifi-ruby-#{Justifi::VERSION}"
+        request = Net::HTTP::Post.new(uri, headers)
         request.body = body
         request
       end
