@@ -14,4 +14,5 @@ group :development, :test do
   gem "dotenv"
   gem "rubocop", "~> 0.80"
   gem "standard"
+  gem "webmock", ">= 3.8.0"
 end

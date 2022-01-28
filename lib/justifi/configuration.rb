@@ -8,7 +8,7 @@ module Justifi
     attr_accessor :client_secret
     attr_accessor :access_token
     attr_accessor :environment
-    attr_accessor :max_retries
+    attr_accessor :max_attempts
     attr_accessor :cache
 
     def self.setup
@@ -18,7 +18,7 @@ module Justifi
     end
 
     def initialize
-      @max_retries = 1
+      @max_attempts = 3
     end
 
     def credentials

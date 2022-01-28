@@ -27,8 +27,8 @@ module Justifi
     def_delegators :@config, :access_token=, :access_token
     def_delegators :@config, :credentials, :credentials
     def_delegators :@config, :credentials=, :credentials=
-    def_delegators :@config, :max_retries=, :max_retries
-    def_delegators :@config, :max_retries, :max_retries
+    def_delegators :@config, :max_attempts=, :max_attempts
+    def_delegators :@config, :max_attempts, :max_attempts
     def_delegators :@config, :clear_credentials, :clear_credentials
     def_delegators :@config, :environment=, :environment
     def_delegators :@config, :use_staging, :use_staging
