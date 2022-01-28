@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Hard-copy from stripe-ruby gem
-# https://github.com/stripe/stripe-ruby/blob/master/lib/stripe/stripe_response.rb
-
 module Justifi
   # Headers provides an access wrapper to an API response's header data. It
   # mainly exists so that we don't need to expose the entire
@@ -58,7 +55,7 @@ module Justifi
     # The integer HTTP status code of the response.
     attr_accessor :http_status
 
-    # The Justifi request ID of the response.
+    # The JustiFi request ID of the response.
     attr_accessor :request_id
 
     def self.populate_for_net_http(resp, http_resp)

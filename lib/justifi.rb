@@ -10,6 +10,7 @@ require "justifi/version"
 require "justifi/configuration"
 require "justifi/oauth"
 require "justifi/payment"
+require "justifi/payment_method"
 require "justifi/in_memory_cache"
 
 module Justifi
@@ -26,6 +27,8 @@ module Justifi
     def_delegators :@config, :access_token=, :access_token
     def_delegators :@config, :credentials, :credentials
     def_delegators :@config, :credentials=, :credentials=
+    def_delegators :@config, :max_retries=, :max_retries
+    def_delegators :@config, :max_retries, :max_retries
     def_delegators :@config, :clear_credentials, :clear_credentials
     def_delegators :@config, :environment=, :environment
     def_delegators :@config, :use_staging, :use_staging
@@ -49,6 +52,10 @@ module Justifi
 
     def token
       Justifi.cache.get(:access_token)
+    end
+
+    def get_idempotency_key
+      SecureRandom.uuid
     end
   end
 

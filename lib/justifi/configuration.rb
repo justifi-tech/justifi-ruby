@@ -8,12 +8,17 @@ module Justifi
     attr_accessor :client_secret
     attr_accessor :access_token
     attr_accessor :environment
+    attr_accessor :max_retries
     attr_accessor :cache
 
     def self.setup
       new.tap do |instance|
         yield(instance) if block_given?
       end
+    end
+
+    def initialize
+      @max_retries = 1
     end
 
     def credentials

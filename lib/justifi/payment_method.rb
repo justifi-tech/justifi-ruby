@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Justifi
-  module Payment
-    module PaymentOperations
+  module PaymentMethod
+    module PaymentMethodOperations
       extend APIOperations::ClassMethods
 
       def self.execute_post_request(path, params, headers)
@@ -19,7 +19,7 @@ module Justifi
     end
 
     def self.create(params: {}, headers: {}, idempotency_key: nil)
-      PaymentOperations.idempotently_request("/v1/payments",
+      PaymentMethodOperations.idempotently_request("/v1/payment_methods",
         method: :post,
         params: params,
         headers: headers,
