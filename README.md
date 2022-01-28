@@ -70,7 +70,7 @@ payment_params = {
   }
 }
 
-Justifi::Payment.create_payment(payment_params)
+Justifi::Payment.create(payment_params)
 ```
 
 2. Create with full payment params:
@@ -98,7 +98,7 @@ payment_params = {
   }
 }
 
-Justifi::Payment.create_payment(params: payment_params)
+Justifi::Payment.create(params: payment_params)
 ```
 
 ## Idempotency Key
@@ -128,7 +128,7 @@ payment_params = {
   }
 }
 
-Justifi::Payment.create_payment(params: payment_params, idempotency_key: "my_idempotency_key")
+Justifi::Payment.create(params: payment_params, idempotency_key: "my_idempotency_key")
 ```
 
 IMPORTANT: The gem will generate an idempotency key in case you don't want to use your own.
