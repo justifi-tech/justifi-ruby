@@ -42,7 +42,7 @@ module Justifi
       Justifi.clear_credentials
     end
 
-    def setup(client_id:, client_secret:, environment:)
+    def setup(client_id:, client_secret:, environment: "production")
       @config = Justifi::Configuration.setup { |config|
         config.client_id = client_id
         config.client_secret = client_secret

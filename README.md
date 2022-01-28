@@ -1,39 +1,134 @@
-# Justifi
+# JustiFi Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/justifi`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language. 
+It includes a pre-defined set of modules and classes that are essentially wrapped versions of our API resources.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+From the command line:
+```bash
+gem install justifi --version "0.1.4" --source "https://rubygems.pkg.github.com/justifi-tech"
+```
+OR
+
+Add these lines to your application's Gemfile:
 
 ```ruby
-gem 'justifi'
+source "https://rubygems.pkg.github.com/justifi-tech" do
+  gem "justifi", "0.1.0"
+end
 ```
-
 And then execute:
 
     $ bundle install
 
-Or install it yourself as:
-
-    $ gem install justifi
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem needs to be configured with your `client_id` and `client_secret` in order to access JustiFi API resources.
 
-## Development
+Set `Justifi.client_id` and `Justifi.client_secret`:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+require 'justifi'
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Justifi.client_id = 'live_13...'
+Justifi.client_secret = 'live_TDYj_wdd...'
+```
 
-## Contributing
+OR just use the `Justifi.setup` method to set all at once:
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/justifi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/justifi/blob/master/CODE_OF_CONDUCT.md).
 
-## Code of Conduct
+```ruby
+require 'justifi'
 
-Everyone interacting in the Justifi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/justifi/blob/master/CODE_OF_CONDUCT.md).
+# setup
+Justifi.setup(client_id:     ENV["JUSTIFI_CLIENT_ID"],
+              client_secret: ENV["JUSTIFI_CLIENT_SECRET"])
+```
+
+
+## Create Payment
+
+There are two ways to create a payment:
+
+1. Create with tokenized payment method:
+
+```ruby
+require 'justifi'
+
+# gem setup...
+
+payment_params = {
+  amount: 1000,
+  currency: "usd",
+  capture_strategy: "automatic",
+  email: "example@example.com",
+  description: "Charging $10 on Example.com",
+  payment_method: {
+    token: "#{tokenized_payment_method_id}"
+  }
+}
+
+Justifi::Payment.create_payment(payment_params)
+```
+
+2. Create with full payment params:
+
+```ruby
+require 'justifi'
+
+# gem setup...
+
+payment_params = {
+  amount: 1000,
+  currency: "usd",
+  capture_strategy: "automatic",
+  email: "example@example.com",
+  description: "Charging $10 on Example.com",
+  payment_method: {
+    card: {
+      name: "JustiFi Tester",
+      number: "4242424242424242",
+      verification: "123",
+      month: "3",
+      year: "2040",
+      address_postal_code: "55555"
+    }
+  }
+}
+
+Justifi::Payment.create_payment(params: payment_params)
+```
+
+## Idempotency Key
+
+You can use your own idempotency-key when creating payments.
+
+```ruby
+require 'justifi'
+
+# gem setup...
+
+payment_params = {
+  amount: 1000,
+  currency: "usd",
+  capture_strategy: "automatic",
+  email: "example@example.com",
+  description: "Charging $10 on Example.com",
+  payment_method: {
+    card: {
+      name: "JustiFi Tester",
+      number: "4242424242424242",
+      verification: "123",
+      month: "3",
+      year: "2040",
+      address_postal_code: "55555"
+    }
+  }
+}
+
+Justifi::Payment.create_payment(params: payment_params, idempotency_key: "my_idempotency_key")
+```
+
+IMPORTANT: The gem will generate an idempotency key in case you don't want to use your own.
