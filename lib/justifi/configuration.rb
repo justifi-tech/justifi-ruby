@@ -4,6 +4,8 @@ require "forwardable"
 
 module Justifi
   class Configuration
+    API_BASE_URL = "https://api.justifi.ai"
+
     attr_accessor :client_id
     attr_accessor :client_secret
     attr_accessor :access_token
@@ -43,11 +45,11 @@ module Justifi
     def api_url
       case environment
       when "production"
-        ENV["API_BASE_URL"]
+        API_BASE_URL
       when "staging"
         ENV["API_STAGING_BASE_URL"]
       else
-        ENV["API_BASE_URL"]
+        API_BASE_URL
       end
     end
 
