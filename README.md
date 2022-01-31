@@ -7,7 +7,7 @@ It includes a pre-defined set of modules and classes that are essentially wrappe
 
 From the command line:
 ```bash
-gem install justifi --version "0.1.4" --source "https://rubygems.pkg.github.com/justifi-tech"
+gem install justifi --version "0.1.1" --source "https://rubygems.pkg.github.com/justifi-tech"
 ```
 OR
 
@@ -15,7 +15,7 @@ Add these lines to your application's Gemfile:
 
 ```ruby
 source "https://rubygems.pkg.github.com/justifi-tech" do
-  gem "justifi", "0.1.0"
+  gem "justifi", "0.1.1"
 end
 ```
 And then execute:
