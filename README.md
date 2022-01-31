@@ -70,7 +70,7 @@ payment_params = {
   }
 }
 
-Justifi::Payment.create(payment_params)
+Justifi::Payment.create(params: payment_params)
 ```
 
 2. Create with full payment params:
