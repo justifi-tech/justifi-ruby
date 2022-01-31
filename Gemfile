@@ -12,7 +12,7 @@ gem "rspec", "~> 3.0"
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "dotenv"
-  gem "rubocop", "~> 0.80"
+  gem "rubocop"
   gem "standard"
   gem "webmock", ">= 3.8.0"
 end
