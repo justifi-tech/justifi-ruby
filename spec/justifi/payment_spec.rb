@@ -9,34 +9,33 @@ RSpec.describe Justifi::Payment do
       Stubs::OAuth.success_get_token
     end
 
+    let(:payment_params) do
+      {
+        amount: 1000,
+        currency: "usd",
+        capture_strategy: "automatic",
+        email: "example@opentrack.com",
+        description: "Charging $10 on OpenTrack",
+        payment_method: {
+          card: {
+            name: "JustiFi Tester",
+            number: "4242424242424242",
+            verification: "123",
+            month: "3",
+            year: "2040",
+            address_postal_code: "55555"
+          }
+        }
+      }
+    end
+
+    let(:params) { payment_params }
     let(:create_payment) { subject.send(:create, params: params) }
 
     context "with valid params" do
       before do
         Stubs::Payment.success_create(payment_params)
       end
-
-      let(:payment_params) do
-        {
-          amount: 1000,
-          currency: "usd",
-          capture_strategy: "automatic",
-          email: "example@opentrack.com",
-          description: "Charging $10 on OpenTrack",
-          payment_method: {
-            card: {
-              name: "JustiFi Tester",
-              number: "4242424242424242",
-              verification: "123",
-              month: "3",
-              year: "2040",
-              address_postal_code: "55555"
-            }
-          }
-        }
-      end
-
-      let(:params) { payment_params }
 
       it do
         response = create_payment
@@ -81,8 +80,6 @@ RSpec.describe Justifi::Payment do
         }
       end
 
-      let(:params) { payment_params }
-
       it do
         response = create_payment
         expect(response).to be_a(Justifi::JustifiResponse)
@@ -96,6 +93,47 @@ RSpec.describe Justifi::Payment do
 
       it do
         expect { create_payment }.to raise_error(Justifi::InvalidHttpResponseError)
+      end
+    end
+
+    context "with refund" do
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_refund(refund_params.dup)
+      end
+
+      let(:create_refund) { subject.send(:create_refund, **refund_params) }
+
+      let(:refund_params) {
+        {
+          amount: 1000,
+          description: nil,
+          reason: Justifi::REFUND_REASONS[2],
+          payment_id: create_payment.data[:id]
+        }
+      }
+
+      it do
+        response = create_refund
+        expect(response).to be_a(Justifi::JustifiResponse)
+        expect(response.http_status).to eq(201)
+      end
+    end
+
+    context "refund fails with invalid reason" do
+      let(:create_refund) { subject.send(:create_refund, **refund_params) }
+
+      let(:refund_params) {
+        {
+          amount: 1000,
+          description: nil,
+          reason: "invalid",
+          payment_id: "payment-id"
+        }
+      }
+
+      it do
+        expect { create_refund }.to raise_error(ArgumentError)
       end
     end
   end
