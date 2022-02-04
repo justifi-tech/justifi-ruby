@@ -160,7 +160,7 @@ payment_params = {
   }
 }
 
-payment_id = Justifi::Payment.create(params: payment_parms).data[:id] # get the payment id
+payment_id = Justifi::Payment.create(params: payment_params).data[:id] # get the payment id
 reason     = ['duplicate', 'fraudulent', 'customer_request'] # optional: one of these
 amount     = 1000
 
