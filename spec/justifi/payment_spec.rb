@@ -119,22 +119,5 @@ RSpec.describe Justifi::Payment do
         expect(response.http_status).to eq(201)
       end
     end
-
-    context "refund fails with invalid reason" do
-      let(:create_refund) { subject.send(:create_refund, **refund_params) }
-
-      let(:refund_params) {
-        {
-          amount: 1000,
-          description: nil,
-          reason: "invalid",
-          payment_id: "payment-id"
-        }
-      }
-
-      it do
-        expect { create_refund }.to raise_error(ArgumentError)
-      end
-    end
   end
 end

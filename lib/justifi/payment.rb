@@ -26,9 +26,7 @@ module Justifi
         idempotency_key: idempotency_key)
     end
 
-    def self.create_refund(amount:, reason:, payment_id:, description: nil)
-      raise ArgumentError, "Refund reason must be one of the following: #{Justifi::REFUND_REASONS}" unless Justifi::REFUND_REASONS.include? reason
-
+    def self.create_refund(amount:, payment_id:, reason: nil, description: nil)
       refund_params = {amount: amount, description: description, reason: reason}
       PaymentOperations.idempotently_request("/v1/payments/#{payment_id}/refunds",
         method: :post,

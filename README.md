@@ -135,8 +135,7 @@ IMPORTANT: The gem will generate an idempotency key in case you don't want to us
 
 ## Create Payment Refund
 
-In order to create a refund, you will need an amount, a payment_id ( `py_2aBBouk...` ) 
-and a reason.
+In order to create a refund, you will need an amount, a payment_id ( `py_2aBBouk...` ).
 
 ```ruby
 require 'justifi'
@@ -162,7 +161,7 @@ payment_params = {
 }
 
 payment_id = Justifi::Payment.create(params: payment_parms).data[:id] # get the payment id
-reason     = ['duplicate', 'fraudulent', 'customer_request'] # one of these
+reason     = ['duplicate', 'fraudulent', 'customer_request'] # optional: one of these
 amount     = 1000
 
 Justifi::Payment.create_refund( amount: 1000, reason: reason, payment_id: payment_id )
