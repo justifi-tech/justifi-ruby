@@ -25,5 +25,13 @@ module Justifi
         headers: headers,
         idempotency_key: idempotency_key)
     end
+
+    def self.create_refund(amount:, payment_id:, reason: nil, description: nil)
+      refund_params = {amount: amount, description: description, reason: reason}
+      PaymentOperations.idempotently_request("/v1/payments/#{payment_id}/refunds",
+        method: :post,
+        params: refund_params,
+        headers: {})
+    end
   end
 end

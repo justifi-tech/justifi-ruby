@@ -7,7 +7,7 @@ It includes a pre-defined set of modules and classes that are essentially wrappe
 
 From the command line:
 ```bash
-gem install justifi --version "0.1.2" --source "https://rubygems.pkg.github.com/justifi-tech"
+gem install justifi --version "0.2.0" --source "https://rubygems.pkg.github.com/justifi-tech"
 ```
 OR
 
@@ -15,7 +15,7 @@ Add these lines to your application's Gemfile:
 
 ```ruby
 source "https://rubygems.pkg.github.com/justifi-tech" do
-  gem "justifi", "0.1.2"
+  gem "justifi", "0.2.0"
 end
 ```
 And then execute:
@@ -132,3 +132,37 @@ Justifi::Payment.create(params: payment_params, idempotency_key: "my_idempotency
 ```
 
 IMPORTANT: The gem will generate an idempotency key in case you don't want to use your own.
+
+## Create Payment Refund
+
+In order to create a refund, you will need an amount, a payment_id ( `py_2aBBouk...` ).
+
+```ruby
+require 'justifi'
+
+# gem setup...
+
+payment_params = {
+  amount: 1000,
+  currency: "usd",
+  capture_strategy: "automatic",
+  email: "example@example.com",
+  description: "Charging $10 on Example.com",
+  payment_method: {
+    card: {
+      name: "JustiFi Tester",
+      number: "4242424242424242",
+      verification: "123",
+      month: "3",
+      year: "2040",
+      address_postal_code: "55555"
+    }
+  }
+}
+
+payment_id = Justifi::Payment.create(params: payment_parms).data[:id] # get the payment id
+reason     = ['duplicate', 'fraudulent', 'customer_request'] # optional: one of these
+amount     = 1000
+
+Justifi::Payment.create_refund( amount: 1000, reason: reason, payment_id: payment_id )
+```

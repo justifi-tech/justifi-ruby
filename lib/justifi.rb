@@ -17,6 +17,8 @@ module Justifi
   @config = Justifi::Configuration.setup
   @cache = Justifi::InMemoryCache.new
 
+  REFUND_REASONS = %w[duplicate fraudulent customer_request]
+
   class << self
     extend Forwardable
 
