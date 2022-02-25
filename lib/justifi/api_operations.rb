@@ -4,12 +4,23 @@ require "net/http"
 
 module Justifi
   module APIOperations
+    SUCCESS_RESPONSES = []
     module ClassMethods
       def execute_post_request(path, body, headers)
         raise ArgumentError, "body should be a string" if body && !body.is_a?(String)
         raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
 
-        response = execute_request(path, body, headers)
+        response = execute_request(:post, path, body, headers)
+        raise InvalidHttpResponseError.new(response: response) unless success?(response)
+
+        response
+      end
+
+      def execute_get_request(path, query, headers)
+        raise ArgumentError, "query should be a string" if query && !query.is_a?(String)
+        raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
+
+        response = execute_request(:get, "#{path}?#{query}", nil, headers)
         raise InvalidHttpResponseError.new(response: response) unless success?(response)
 
         response
@@ -24,21 +35,23 @@ module Justifi
         end
       end
 
-      private def create_post_request(uri, body = {}, headers = {})
+      private def execute_request(method_name, path, body, headers)
         headers["Content-Type"] = "application/json"
         headers["User-Agent"] = "justifi-ruby-#{Justifi::VERSION}"
-        request = Net::HTTP::Post.new(uri, headers)
-        request.body = body
-        request
-      end
 
-      private def execute_request(path, body, headers)
-        uri = URI("#{Justifi.api_url}#{path}")
+        connection = http_connection(path)
+        connection.use_ssl = true
 
-        response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http|
-          request = create_post_request(uri, body, headers)
-          http.request request
-        }
+        has_response_body = method_name != "HEAD"
+        request = Net::HTTPGenericRequest.new(
+          method_name,
+          (body ? true : false),
+          has_response_body,
+          path,
+          headers
+        )
+
+        response = connection.request(request, body)
 
         JustifiResponse.from_net_http(response)
       end
@@ -69,7 +82,6 @@ module Justifi
         when Justifi::Error
           # 409 Conflict
           return true if error.response_code == 409
-
           # Add more cases
         else
           false
@@ -77,6 +89,12 @@ module Justifi
       end
 
       def success?(response)
+        !response.nil? && response.success
+      end
+
+      def http_connection(path)
+        uri = URI("#{Justifi.api_url}#{path}")
+        Net::HTTP.new(uri.host, uri.port)
       end
     end
   end

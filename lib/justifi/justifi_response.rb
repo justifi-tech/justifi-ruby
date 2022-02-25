@@ -79,12 +79,16 @@ module Justifi
     # The error error_message from JustiFi API
     attr_accessor :error_message
 
+    # The boolean flag based on Net::HTTPSuccess
+    attr_accessor :success
+
     # Initializes a JustifiResponse object from a Net::HTTP::HTTPResponse
     # object.
     def self.from_net_http(http_resp)
       resp = JustifiResponse.new
       resp.data = JSON.parse(http_resp.body, symbolize_names: true)
       resp.http_body = http_resp.body
+      resp.success = http_resp.kind_of? Net::HTTPSuccess
       resp.error_message = resp.data.dig(:error, :message)
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
