@@ -120,4 +120,28 @@ RSpec.describe Justifi::Payment do
       end
     end
   end
+
+  describe "list" do
+    before do
+      Justifi.setup(client_id: ENV["CLIENT_ID"],
+                    client_secret: ENV["CLIENT_SECRET"],
+                    environment: ENV["ENVIRONMENT"])
+      Stubs::OAuth.success_get_token
+    end
+
+    let(:params) { { limit: 15 } }
+    let(:list_payments) { subject.send(:list, params: params) }
+
+    context "with valid params" do
+      before do
+        Stubs::Payment.success_list
+      end
+
+      it do
+        response = list_payments
+        expect(response).to be_a(Justifi::JustifiResponse)
+        expect(response.http_status).to eq(200)
+      end
+    end
+  end
 end
