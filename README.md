@@ -23,15 +23,13 @@ And then execute:
     $ bundle install
 
 
-## Usage
+## Setup
 
 The gem needs to be configured with your `client_id` and `client_secret` in order to access JustiFi API resources.
 
 Set `Justifi.client_id` and `Justifi.client_secret`:
 
 ```ruby
-require 'justifi'
-
 Justifi.client_id = 'live_13...'
 Justifi.client_secret = 'live_TDYj_wdd...'
 ```
@@ -55,10 +53,6 @@ There are two ways to create a payment:
 1. Create with tokenized payment method:
 
 ```ruby
-require 'justifi'
-
-# gem setup...
-
 payment_params = {
   amount: 1000,
   currency: "usd",
@@ -76,10 +70,6 @@ Justifi::Payment.create(params: payment_params)
 2. Create with full payment params:
 
 ```ruby
-require 'justifi'
-
-# gem setup...
-
 payment_params = {
   amount: 1000,
   currency: "usd",
@@ -106,10 +96,6 @@ Justifi::Payment.create(params: payment_params)
 You can use your own idempotency-key when creating payments.
 
 ```ruby
-require 'justifi'
-
-# gem setup...
-
 payment_params = {
   amount: 1000,
   currency: "usd",
@@ -138,10 +124,6 @@ IMPORTANT: The gem will generate an idempotency key in case you don't want to us
 In order to create a refund, you will need an amount, a payment_id ( `py_2aBBouk...` ).
 
 ```ruby
-require 'justifi'
-
-# gem setup...
-
 payment_params = {
   amount: 1000,
   currency: "usd",
@@ -172,36 +154,11 @@ Justifi::Payment.create_refund( amount: 1000, reason: reason, payment_id: paymen
 All top-level API resources have support for bulk fetches via `array` API methods.
 JustiFi uses cursor based pagination which supports `limit`, `before_cursor` and `after_cursor`.
 Each response will have a `page_info` object that contains the `has_next` and `has_previous` fields,
-which tells you if there are more items before or after the current page.
-The `page_info` object also includes `start_cursor` and `end_cursor` values which can be used in 
-conjuction with `before_cursor` and `after_cursor` to retrieve items from the api one page at a time.
-
-### List PaymentMethods
-
-```ruby
-require 'justifi'
-
-# gem setup...
-
-pms = Justifi::PaymentMethod.list
-
-# pagination with after_cursor
-
-query_params = {
-  limit: 15,
-  after_cursor: pms.data[:page_info][:after_cursor],
-}
-
-payment_methods = Justifi::PaymentMethod.list(params: query_params)
-```
+you can find more information about this on [JustiFi's Developer Portal](https://developer.justifi.ai/#section/Pagination).
 
 ### List Payments
 
 ```ruby
-require 'justifi'
-
-# gem setup...
-
 payments = Justifi::Payment.list
 
 # pagination with after_cursor

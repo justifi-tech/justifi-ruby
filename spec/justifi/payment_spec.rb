@@ -129,7 +129,7 @@ RSpec.describe Justifi::Payment do
       Stubs::OAuth.success_get_token
     end
 
-    let(:params) { { limit: 15 } }
+    let(:params) { {limit: 15} }
     let(:list_payments) { subject.send(:list, params: params) }
 
     context "with valid params" do

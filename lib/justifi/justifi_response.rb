@@ -88,7 +88,7 @@ module Justifi
       resp = JustifiResponse.new
       resp.data = JSON.parse(http_resp.body, symbolize_names: true)
       resp.http_body = http_resp.body
-      resp.success = http_resp.kind_of? Net::HTTPSuccess
+      resp.success = http_resp.is_a? Net::HTTPSuccess
       resp.error_message = resp.data.dig(:error, :message)
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
