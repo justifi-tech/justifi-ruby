@@ -9,10 +9,6 @@ module Justifi
         params = Util.normalize_params(params.merge(Justifi.credentials))
         super(path, params, headers)
       end
-
-      def self.success?(response)
-        !response.nil? && response.http_status == 200
-      end
     end
 
     class << self

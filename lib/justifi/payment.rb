@@ -13,8 +13,12 @@ module Justifi
         super(path, params, headers)
       end
 
-      def self.success?(response)
-        !response.nil? && response.http_status == 201
+      def self.execute_get_request(path, params, headers)
+        query = Util.encode_parameters(params)
+        headers[:authorization] = "Bearer #{Justifi::OAuth.get_token}"
+        headers = Util.normalize_headers(headers)
+
+        super(path, query, headers)
       end
     end
 
@@ -32,6 +36,10 @@ module Justifi
         method: :post,
         params: refund_params,
         headers: {})
+    end
+
+    def self.list(params: {}, headers: {})
+      PaymentOperations.execute_get_request("/v1/payments", params, headers)
     end
   end
 end
