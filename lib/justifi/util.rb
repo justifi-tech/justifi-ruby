@@ -9,14 +9,26 @@ module Justifi
       when Hash
         params.dup.to_json
       else
-        raise TypeError, "normalize_paarms expects a hash"
+        raise TypeError, "normalize_params expects a hash"
+      end
+    end
+
+    # Normalizes header keys so that they're all lower case and each
+    # hyphen-delimited section starts with a single capitalized letter. For
+    # example, `request-id` becomes `Request-Id`. This is useful for extracting
+    # certain key values when the user could have set them with a variety of
+    # diffent naming schemes.
+    def self.normalize_headers(headers)
+      headers.each_with_object({}) do |(k, v), new_headers|
+        k = k.to_s.tr("_", "-") if k.is_a?(Symbol)
+        k = k.split("-").reject(&:empty?).map(&:capitalize).join("-")
+
+        new_headers[k] = v
       end
     end
 
     # Encodes a hash of parameters in a way that's suitable for use as query
-    # parameters in a URI or as form parameters in a request body. This mainly
-    # involves escaping special characters from parameter keys and values (e.g.
-    # `&`).
+    # parameters in a URI.
     def self.encode_parameters(params)
       Util.flatten_params(params)
         .map { |k, v| "#{url_encode(k)}=#{url_encode(v)}" }.join("&")
@@ -64,20 +76,6 @@ module Justifi
         end
       end
       result
-    end
-
-    # Normalizes header keys so that they're all lower case and each
-    # hyphen-delimited section starts with a single capitalized letter. For
-    # example, `request-id` becomes `Request-Id`. This is useful for extracting
-    # certain key values when the user could have set them with a variety of
-    # diffent naming schemes.
-    def self.normalize_headers(headers)
-      headers.each_with_object({}) do |(k, v), new_headers|
-        k = k.to_s.tr("_", "-") if k.is_a?(Symbol)
-        k = k.split("-").reject(&:empty?).map(&:capitalize).join("-")
-
-        new_headers[k] = v
-      end
     end
   end
 end
