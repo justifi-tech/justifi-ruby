@@ -12,7 +12,7 @@ RSpec.describe Justifi::Util do
           e: [0, 1],
           f: "",
 
-          # empty hash won't even show up in the request
+          # empty array won't even show up in the request
           g: []
         }
         expect(subject.encode_parameters(params)).to eq(
