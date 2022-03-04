@@ -20,6 +20,14 @@ module Justifi
 
         super(path, query, headers)
       end
+
+      def self.execute_patch_request(path, params, headers)
+        params = Util.normalize_params(params)
+        headers[:authorization] = "Bearer #{Justifi::OAuth.get_token}"
+
+        headers = Util.normalize_headers(headers)
+        super(path, params, headers)
+      end
     end
 
     def self.create(params: {}, headers: {}, idempotency_key: nil)
@@ -46,6 +54,13 @@ module Justifi
       PaymentOperations.execute_get_request("/v1/payments/#{payment_id}",
         {},
         headers)
+    end
+
+    def self.update(payment_id:, params: {}, headers: {}, idempotency_key: nil)
+      PaymentOperations.idempotently_request("/v1/payments/#{payment_id}",
+        method: :patch,
+        params: params,
+        headers: {})
     end
   end
 end

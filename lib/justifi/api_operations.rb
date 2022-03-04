@@ -26,6 +26,16 @@ module Justifi
         response
       end
 
+      def execute_patch_request(path, body, headers)
+        raise ArgumentError, "body should be a string" if body && !body.is_a?(String)
+        raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
+
+        response = execute_request(:patch, path, body, headers)
+        raise InvalidHttpResponseError.new(response: response) unless success?(response)
+
+        response
+      end
+
       def idempotently_request(path, method:, params:, headers:, idempotency_key: nil)
         idempotency_key ||= Justifi.get_idempotency_key
         headers[:idempotency_key] = idempotency_key
@@ -40,8 +50,8 @@ module Justifi
         headers["User-Agent"] = "justifi-ruby-#{Justifi::VERSION}"
 
         connection = http_connection(path)
-        connection.use_ssl = true
 
+        method_name = method_name.to_s.upcase
         has_response_body = method_name != "HEAD"
         request = Net::HTTPGenericRequest.new(
           method_name,
@@ -94,7 +104,7 @@ module Justifi
 
       def http_connection(path)
         uri = URI("#{Justifi.api_url}#{path}")
-        Net::HTTP.new(uri.host, uri.port)
+        Net::HTTP.start(uri.host, uri.port, use_ssl: true)
       end
     end
   end

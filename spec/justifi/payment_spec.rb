@@ -21,7 +21,7 @@ RSpec.describe Justifi::Payment do
     }
   end
 
-  describe "create" do
+  describe "#create" do
     before do
       Justifi.setup(client_id: ENV["CLIENT_ID"],
                     client_secret: ENV["CLIENT_SECRET"],
@@ -120,7 +120,7 @@ RSpec.describe Justifi::Payment do
     end
   end
 
-  describe "list" do
+  describe "#list" do
     before do
       Justifi.setup(client_id: ENV["CLIENT_ID"],
                     client_secret: ENV["CLIENT_SECRET"],
@@ -164,6 +164,36 @@ RSpec.describe Justifi::Payment do
 
       it do
         response = get_payment
+        expect(response).to be_a(Justifi::JustifiResponse)
+        expect(response.http_status).to eq(200)
+      end
+    end
+  end
+
+  describe "#update" do
+    before do
+      Justifi.setup(client_id: ENV["CLIENT_ID"],
+                    client_secret: ENV["CLIENT_SECRET"],
+                    environment: ENV["ENVIRONMENT"])
+      Stubs::OAuth.success_get_token
+      Stubs::Payment.success_create(payment_params)
+      Stubs::Payment.success_update(update_params, create_payment.data[:id])
+    end
+
+    let(:payment_id) { create_payment.data[:id] }
+    let(:create_payment) { subject.send(:create, params: payment_params) }
+    let(:update_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
+
+    let(:update_params) {
+      {
+        metadata: {"meta-id": "meta_12aac"},
+        description: nil
+      }
+    }
+
+    context "with valid params" do
+      it do
+        response = update_payment
         expect(response).to be_a(Justifi::JustifiResponse)
         expect(response.http_status).to eq(200)
       end
