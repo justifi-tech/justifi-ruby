@@ -30,6 +30,8 @@ The gem needs to be configured with your `client_id` and `client_secret` in orde
 Set `Justifi.client_id` and `Justifi.client_secret`:
 
 ```ruby
+require 'justifi'
+
 Justifi.client_id = 'live_13...'
 Justifi.client_secret = 'live_TDYj_wdd...'
 ```
