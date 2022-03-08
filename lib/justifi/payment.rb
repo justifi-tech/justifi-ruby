@@ -41,5 +41,11 @@ module Justifi
     def self.list(params: {}, headers: {})
       PaymentOperations.execute_get_request("/v1/payments", params, headers)
     end
+
+    def self.get(payment_id:, headers: {})
+      PaymentOperations.execute_get_request("/v1/payments/#{payment_id}",
+        {},
+        headers)
+    end
   end
 end

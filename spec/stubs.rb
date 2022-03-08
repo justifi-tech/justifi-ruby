@@ -173,6 +173,51 @@ module Stubs
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
+
+      def success_get(payment_id)
+        response_body = {
+          "id": "py_xyz",
+          "account_id": "acc_xyz",
+          "amount": 10000,
+          "amount_disputed": 0,
+          "amount_refunded": 0,
+          "amount_refundable": 10000,
+          "balance": 99850,
+          "fee_amount": 150,
+          "captured": true,
+          "capture_strategy": "manual",
+          "currency": "usd",
+          "customer_id": "cu_xyz",
+          "description": "my_order_xyz",
+          "disputed": false,
+          "disputes": [],
+          "error_code": "credit_card_number_invalid",
+          "error_description": "Credit Card Number Invalid (Failed LUHN checksum)",
+          "is_test": true,
+          "metadata": {},
+          "payment_intent_id": "py_xyz",
+          "payment_method": {
+            "card": {
+              "id": "pm_123xyz",
+              "acct_last_four": 4242,
+              "brand": "visa",
+              "name": "Amanda Kessel",
+              "token": "pm_123xyz",
+              "metadata": {},
+              "created_at": "2021-01-01T12:00:00Z",
+              "updated_at": "2021-01-01T12:00:00Z"
+            }
+          },
+          "refunded": false,
+          "status": "pending",
+          "created_at": "2021-01-01T12:00:00Z",
+          "updated_at": "2021-01-01T12:00:00Z"
+        }.to_json
+
+        WebMock.stub_request(:get, "#{Justifi.api_url}/v1/payments/#{payment_id}")
+          .with(headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
     end
   end
 end

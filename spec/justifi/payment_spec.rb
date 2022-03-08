@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 
 RSpec.describe Justifi::Payment do
+  let(:payment_params) do
+    {
+      amount: 1000,
+      currency: "usd",
+      capture_strategy: "automatic",
+      email: "example@opentrack.com",
+      description: "Charging $10 on OpenTrack",
+      payment_method: {
+        card: {
+          name: "JustiFi Tester",
+          number: "4242424242424242",
+          verification: "123",
+          month: "3",
+          year: "2040",
+          address_postal_code: "55555"
+        }
+      }
+    }
+  end
+
   describe "create" do
     before do
       Justifi.setup(client_id: ENV["CLIENT_ID"],
@@ -9,28 +29,7 @@ RSpec.describe Justifi::Payment do
       Stubs::OAuth.success_get_token
     end
 
-    let(:payment_params) do
-      {
-        amount: 1000,
-        currency: "usd",
-        capture_strategy: "automatic",
-        email: "example@opentrack.com",
-        description: "Charging $10 on OpenTrack",
-        payment_method: {
-          card: {
-            name: "JustiFi Tester",
-            number: "4242424242424242",
-            verification: "123",
-            month: "3",
-            year: "2040",
-            address_postal_code: "55555"
-          }
-        }
-      }
-    end
-
-    let(:params) { payment_params }
-    let(:create_payment) { subject.send(:create, params: params) }
+    let(:create_payment) { subject.send(:create, params: payment_params) }
 
     context "with valid params" do
       before do
@@ -139,6 +138,32 @@ RSpec.describe Justifi::Payment do
 
       it do
         response = list_payments
+        expect(response).to be_a(Justifi::JustifiResponse)
+        expect(response.http_status).to eq(200)
+      end
+    end
+  end
+
+  describe "#get" do
+    before do
+      Justifi.setup(client_id: ENV["CLIENT_ID"],
+                    client_secret: ENV["CLIENT_SECRET"],
+                    environment: ENV["ENVIRONMENT"])
+      Stubs::OAuth.success_get_token
+    end
+
+    let(:payment_id) { create_payment.data[:id] }
+    let(:get_payment) { subject.send(:get, payment_id: payment_id) }
+    let(:create_payment) { subject.send(:create, params: payment_params) }
+
+    context "with valid params" do
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_get(payment_id)
+      end
+
+      it do
+        response = get_payment
         expect(response).to be_a(Justifi::JustifiResponse)
         expect(response.http_status).to eq(200)
       end
