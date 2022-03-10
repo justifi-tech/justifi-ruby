@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.email = ["support@justifi.ai"]
 
   spec.summary = "JustiFi API wrapper gem"
-  spec.description = "Used to communicate with JustiFi Payment APIs"
+  spec.description = "Used to communicate with JustiFi APIs"
   spec.homepage = "https://justifi.ai"
-  spec.required_ruby_version = "~> 2.4"
+  spec.required_ruby_version = ">= 2.4"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.pkg.github.com"
 
