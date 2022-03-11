@@ -163,11 +163,11 @@ you can find more information about this on [JustiFi's Developer Portal](https:/
 ```ruby
 payments = Justifi::Payment.list
 
-# pagination with after_cursor
+# pagination with end_cursor
 
 query_params = {
   limit: 15,
-  after_cursor: payments.data[:page_info][:after_cursor],
+  after_cursor: payments.data[:page_info][:end_cursor],
 }
 
 payments = Justifi::Payment.list(params: query_params)
