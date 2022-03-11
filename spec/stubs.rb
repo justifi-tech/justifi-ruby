@@ -121,6 +121,41 @@ module Stubs
           .to_return(status: 201, body: response_body, headers: {})
       end
 
+      def success_update(params, payment_id)
+        response_body = {
+          id: "py_5biOSnr2Ox0nThH9ppKwPY",
+          type: "payment",
+          data: {
+            id: "py_5biOSnr2Ox0nThH9ppKwPY",
+            amount: 1000,
+            currency: "usd",
+            capture_strategy: "automatic",
+            captured: true,
+            description: "Charging $10 on OpenTrack",
+            is_test: true,
+            error_code: nil,
+            error_description: nil,
+            payment_intent_id: nil,
+            status: "succeed",
+            payment_method: {
+              card: {
+                id: "pm_3KafZbS2E56eJ7GJv5YjRk",
+                customer_id: "cust_3bZwh9GSmROJB8DQbChJS",
+                name: "JustiFi Tester",
+                acct_last_four: "4242",
+                brand: "visa",
+                token: "pm_3KafZbS2E56eJ7GJv5YjRk"
+              }
+            },
+            has_more: false
+          }
+        }.to_json
+
+        WebMock.stub_request(:patch, "#{Justifi.api_url}/v1/payments/#{payment_id}")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
+
       def fail_create
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
           .with(body: {}, headers: DEFAULT_HEADERS)
