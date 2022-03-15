@@ -4,6 +4,9 @@ require "justifi/api_operations"
 
 require "justifi/util"
 require "justifi/justifi_response"
+require "justifi/justifi_operations"
+require "justifi/justifi_object"
+require "justifi/list_object"
 require "justifi/justifi_error"
 
 require "justifi/version"

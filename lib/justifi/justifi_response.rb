@@ -95,11 +95,6 @@ module Justifi
     end
   end
 
-  # We have to alias JustifiResponseHeaders to JustifiResponse::Headers, as this
-  # class used to be embedded within JustifiResponse and we want to be backwards
-  # compatible.
-  JustifiResponse::Headers = JustifiResponseHeaders
-
   # JustifiHeadersOnlyResponse includes only header-related vitals of the
   # response. This is used for streaming requests where the response was read
   # directly in a block and we explicitly don't want to store the body of the

@@ -20,7 +20,7 @@ module Justifi
           "/oauth/token", params, headers
         )
 
-        Justifi.cache.set_and_return(:access_token, response.data[:access_token])
+        Justifi.cache.set_and_return(:access_token, response.access_token)
       end
     end
   end

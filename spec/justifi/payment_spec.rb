@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe Justifi::Payment do
+  before do
+    Justifi.setup(client_id: ENV["CLIENT_ID"],
+                  client_secret: ENV["CLIENT_SECRET"],
+                  environment: ENV["ENVIRONMENT"])
+    Stubs::OAuth.success_get_token
+  end
+
   let(:payment_params) do
     {
       amount: 1000,
@@ -22,14 +29,8 @@ RSpec.describe Justifi::Payment do
   end
 
   describe "#create" do
-    before do
-      Justifi.setup(client_id: ENV["CLIENT_ID"],
-                    client_secret: ENV["CLIENT_SECRET"],
-                    environment: ENV["ENVIRONMENT"])
-      Stubs::OAuth.success_get_token
-    end
-
-    let(:create_payment) { subject.send(:create, params: payment_params) }
+    let(:created_payment) { subject.send(:create, params: payment_params) }
+    let(:justifi_object) { created_payment }
 
     context "with valid params" do
       before do
@@ -37,9 +38,8 @@ RSpec.describe Justifi::Payment do
       end
 
       it do
-        response = create_payment
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(201)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
 
@@ -80,9 +80,8 @@ RSpec.describe Justifi::Payment do
       end
 
       it do
-        response = create_payment
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(201)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
 
@@ -91,7 +90,7 @@ RSpec.describe Justifi::Payment do
       let(:params) { {} }
 
       it do
-        expect { create_payment }.to raise_error(Justifi::InvalidHttpResponseError)
+        expect { created_payment }.to raise_error(Justifi::InvalidHttpResponseError)
       end
     end
 
@@ -101,88 +100,74 @@ RSpec.describe Justifi::Payment do
         Stubs::Payment.success_refund(refund_params.dup)
       end
 
-      let(:create_refund) { subject.send(:create_refund, **refund_params) }
+      let(:created_refund) { subject.send(:create_refund, **refund_params) }
 
       let(:refund_params) {
         {
           amount: 1000,
           description: nil,
           reason: Justifi::REFUND_REASONS[2],
-          payment_id: create_payment.data[:id]
+          payment_id: created_payment.id
         }
       }
 
+      let(:justifi_object) { created_refund }
+
       it do
-        response = create_refund
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(201)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
   end
 
   describe "#list" do
-    before do
-      Justifi.setup(client_id: ENV["CLIENT_ID"],
-                    client_secret: ENV["CLIENT_SECRET"],
-                    environment: ENV["ENVIRONMENT"])
-      Stubs::OAuth.success_get_token
-    end
-
     let(:params) { {limit: 15} }
     let(:list_payments) { subject.send(:list, params: params) }
 
     context "with valid params" do
+      let(:justifi_object) { list_payments }
+
       before do
         Stubs::Payment.success_list
       end
 
       it do
-        response = list_payments
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(200)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
   end
 
   describe "#get" do
-    before do
-      Justifi.setup(client_id: ENV["CLIENT_ID"],
-                    client_secret: ENV["CLIENT_SECRET"],
-                    environment: ENV["ENVIRONMENT"])
-      Stubs::OAuth.success_get_token
-    end
-
-    let(:payment_id) { create_payment.data[:id] }
+    let(:payment_id) { created_payment.id }
     let(:get_payment) { subject.send(:get, payment_id: payment_id) }
-    let(:create_payment) { subject.send(:create, params: payment_params) }
+    let(:created_payment) { subject.send(:create, params: payment_params) }
 
     context "with valid params" do
+      let(:justifi_object) { get_payment }
+
       before do
         Stubs::Payment.success_create(payment_params)
         Stubs::Payment.success_get(payment_id)
       end
 
       it do
-        response = get_payment
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(200)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
   end
 
   describe "#update" do
     before do
-      Justifi.setup(client_id: ENV["CLIENT_ID"],
-                    client_secret: ENV["CLIENT_SECRET"],
-                    environment: ENV["ENVIRONMENT"])
-      Stubs::OAuth.success_get_token
       Stubs::Payment.success_create(payment_params)
-      Stubs::Payment.success_update(update_params, create_payment.data[:id])
+      Stubs::Payment.success_update(update_params, created_payment.id)
     end
 
-    let(:payment_id) { create_payment.data[:id] }
-    let(:create_payment) { subject.send(:create, params: payment_params) }
-    let(:update_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
+    let(:payment_id) { created_payment.id }
+    let(:created_payment) { subject.send(:create, params: payment_params) }
+    let(:updated_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
+    let(:justifi_object) { updated_payment }
 
     let(:update_params) {
       {
@@ -193,9 +178,8 @@ RSpec.describe Justifi::Payment do
 
     context "with valid params" do
       it do
-        response = update_payment
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(200)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
   end
