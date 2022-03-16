@@ -173,3 +173,21 @@ query_params = {
 payments = Justifi::Payment.list(params: query_params)
 ```
 
+
+### List Refunds
+
+```ruby
+refunds = Justifi::Refund.list
+
+# pagination
+refunds = refunds.next_page
+refunds = refunds.previous_page
+```
+
+
+## Get resource by id
+
+```ruby
+payment = Justifi::Payment.get(payment_id: 'py_xyz')
+refund = Justifi::Refund.get(refund_id: 're_xyz')
+```

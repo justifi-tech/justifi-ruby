@@ -13,6 +13,7 @@ require "justifi/version"
 require "justifi/configuration"
 require "justifi/oauth"
 require "justifi/payment"
+require "justifi/refund"
 require "justifi/payment_method"
 require "justifi/in_memory_cache"
 
