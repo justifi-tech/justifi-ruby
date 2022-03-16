@@ -4,26 +4,24 @@ require "net/http"
 
 module Justifi
   module APIOperations
-    SUCCESS_RESPONSES = []
     module ClassMethods
       def execute_post_request(path, body, headers)
         raise ArgumentError, "body should be a string" if body && !body.is_a?(String)
         raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
 
         response = execute_request(:post, path, body, headers)
-        raise InvalidHttpResponseError.new(response: response) unless success?(response)
 
-        response
+        JustifiObject.construct_from(path, response, headers)
       end
 
       def execute_get_request(path, query, headers)
         raise ArgumentError, "query should be a string" if query && !query.is_a?(String)
         raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
 
-        response = execute_request(:get, "#{path}?#{query}", nil, headers)
-        raise InvalidHttpResponseError.new(response: response) unless success?(response)
+        path = "#{path}?#{query}"
+        response = execute_request(:get, path, nil, headers)
 
-        response
+        ListObject.construct_from(path, response, headers)
       end
 
       def execute_patch_request(path, body, headers)
@@ -31,9 +29,8 @@ module Justifi
         raise ArgumentError, "headers should be a hash" if headers && !headers.is_a?(Hash)
 
         response = execute_request(:patch, path, body, headers)
-        raise InvalidHttpResponseError.new(response: response) unless success?(response)
 
-        response
+        JustifiObject.construct_from(path, response, headers)
       end
 
       def idempotently_request(path, method:, params:, headers:, idempotency_key: nil)
@@ -61,9 +58,9 @@ module Justifi
           headers
         )
 
-        response = connection.request(request, body)
-
-        JustifiResponse.from_net_http(response)
+        response = JustifiResponse.from_net_http(connection.request(request, body))
+        raise InvalidHttpResponseError.new(response: response) unless response.success
+        response
       end
 
       private def retryable_request
@@ -96,10 +93,6 @@ module Justifi
         else
           false
         end
-      end
-
-      def success?(response)
-        !response.nil? && response.success
       end
 
       def http_connection(path)

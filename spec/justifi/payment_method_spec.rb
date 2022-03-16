@@ -11,6 +11,7 @@ RSpec.describe Justifi::PaymentMethod do
 
     let(:params) { {limit: 15} }
     let(:list_payment_methods) { subject.send(:list, params: params) }
+    let(:justifi_object) { list_payment_methods }
 
     context "with valid params" do
       before do
@@ -18,9 +19,8 @@ RSpec.describe Justifi::PaymentMethod do
       end
 
       it do
-        response = list_payment_methods
-        expect(response).to be_a(Justifi::JustifiResponse)
-        expect(response.http_status).to eq(200)
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
   end
