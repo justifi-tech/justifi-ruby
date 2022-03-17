@@ -1,5 +1,7 @@
 require "securerandom"
 
+require "stubs/refunds"
+
 module Stubs
   VALID_ACCESS_TOKEN = "valid_access_token"
   DEFAULT_HEADERS = {
