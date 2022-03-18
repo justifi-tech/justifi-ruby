@@ -15,6 +15,7 @@ require "justifi/oauth"
 require "justifi/payment"
 require "justifi/refund"
 require "justifi/payout"
+require "justifi/dispute"
 require "justifi/payment_method"
 require "justifi/in_memory_cache"
 
