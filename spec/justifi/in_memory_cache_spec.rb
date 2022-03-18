@@ -2,6 +2,8 @@
 
 RSpec.describe Justifi::InMemoryCache do
   describe "#intialize" do
+    before { Justifi.cache.clear_cache }
+
     context "with empty state" do
       it { expect(Justifi.cache.data).to eq({}) }
     end
