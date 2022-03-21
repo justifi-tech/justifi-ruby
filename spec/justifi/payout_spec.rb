@@ -44,4 +44,26 @@ RSpec.describe Justifi::Payout do
       end
     end
   end
+
+  describe "#update" do
+    before do
+      Stubs::Payout.success_update(update_params, payout_id)
+    end
+
+    let(:updated_payout) { subject.send(:update, payout_id: payout_id, params: update_params) }
+    let(:justifi_object) { updated_payout }
+
+    let(:update_params) {
+      {
+        metadata: {"meta-id": "meta_12aac"}
+      }
+    }
+
+    context "with valid params" do
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
 end
