@@ -53,6 +53,29 @@ module Stubs
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
+
+      def success_update(params, dispute_id)
+        response_body = {
+          "id": 1,
+          "type": "dispute",
+          "data": {
+            "id": "dp_xyz",
+            "amount": 100,
+            "currency": "usd",
+            "payment_id": "py_xyz",
+            "reason": "fraudulent",
+            "status": "won",
+            "metadata": {},
+            "created_at": "2021-01-01T12:00:00Z",
+            "updated_at": "2021-01-01T12:00:00Z"
+          },
+          "page_info": nil
+        }.to_json
+
+        WebMock.stub_request(:patch, "#{Justifi.api_url}/v1/disputes/#{dispute_id}")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
     end
   end
 end

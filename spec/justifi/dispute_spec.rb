@@ -44,4 +44,26 @@ RSpec.describe Justifi::Dispute do
       end
     end
   end
+
+  describe "#update" do
+    before do
+      Stubs::Dispute.success_update(update_params, dispute_id)
+    end
+
+    let(:updated_dispute) { subject.send(:update, dispute_id: dispute_id, params: update_params) }
+    let(:justifi_object) { updated_dispute }
+
+    let(:update_params) {
+      {
+        metadata: {"meta-id": "meta_12aac"}
+      }
+    }
+
+    context "with valid params" do
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
 end
