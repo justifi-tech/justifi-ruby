@@ -95,6 +95,50 @@ module Stubs
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
+
+      def success_update(params, payout_id)
+        response_body = {
+          "id": 1,
+          "type": "payout",
+          "data": {
+            "id": "po_xyz",
+            "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
+            "amount": 100000,
+            "bank_account": {
+              "id": "pm_123xyz",
+              "acct_last_four": 1111,
+              "brand": "Wells Fargo",
+              "name": "Phil Kessel",
+              "token": "pm_123xyz",
+              "metadata": {},
+              "created_at": "2021-01-01T12:00:00Z",
+              "updated_at": "2021-01-01T12:00:00Z"
+            },
+            "currency": "usd",
+            "delivery_method": "standard",
+            "description": "string",
+            "deposits_at": "2021-01-01T12:00:00Z",
+            "fees_total": 5000,
+            "refunds_count": 5,
+            "refunds_total": 10000,
+            "payments_count": 50,
+            "payments_total": 110000,
+            "payout_type": "ach cc",
+            "other_total": 100,
+            "status": "paid",
+            "metadata": {
+              "customer_payout_id": "cp_12345"
+            },
+            "created_at": "2021-01-01T12:00:00Z",
+            "updated_at": "2021-01-01T12:00:00Z"
+          },
+          "page_info": nil
+        }.to_json
+
+        WebMock.stub_request(:patch, "#{Justifi.api_url}/v1/payouts/#{payout_id}")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
     end
   end
 end
