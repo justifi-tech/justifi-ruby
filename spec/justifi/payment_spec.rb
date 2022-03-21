@@ -28,8 +28,10 @@ RSpec.describe Justifi::Payment do
     }
   end
 
+  let(:created_payment) { subject.send(:create, params: payment_params) }
+  let(:payment_id) { created_payment.id }
+
   describe "#create" do
-    let(:created_payment) { subject.send(:create, params: payment_params) }
     let(:justifi_object) { created_payment }
 
     context "with valid params" do
@@ -139,9 +141,7 @@ RSpec.describe Justifi::Payment do
   end
 
   describe "#get" do
-    let(:payment_id) { created_payment.id }
     let(:get_payment) { subject.send(:get, payment_id: payment_id) }
-    let(:created_payment) { subject.send(:create, params: payment_params) }
 
     context "with valid params" do
       let(:justifi_object) { get_payment }
@@ -164,8 +164,6 @@ RSpec.describe Justifi::Payment do
       Stubs::Payment.success_update(update_params, created_payment.id)
     end
 
-    let(:payment_id) { created_payment.id }
-    let(:created_payment) { subject.send(:create, params: payment_params) }
     let(:updated_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
     let(:justifi_object) { updated_payment }
 
@@ -180,6 +178,24 @@ RSpec.describe Justifi::Payment do
       it do
         expect(justifi_object).to be_a(Justifi::JustifiObject)
         expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
+
+  describe "#capture" do
+    before do
+      Stubs::Payment.success_create(payment_params)
+      Stubs::Payment.success_capture(amount, payment_id)
+    end
+
+    let(:captured_payment) { subject.send(:capture, payment_id: payment_id, amount: amount) }
+    let(:justifi_object) { captured_payment }
+    let(:amount) { 2000 }
+
+    context "with valid params" do
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
   end
