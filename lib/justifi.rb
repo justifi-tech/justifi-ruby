@@ -17,6 +17,7 @@ require "justifi/refund"
 require "justifi/payout"
 require "justifi/dispute"
 require "justifi/payment_method"
+require "justifi/payment_intent"
 require "justifi/in_memory_cache"
 
 module Justifi
