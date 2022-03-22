@@ -3,6 +3,7 @@ require "securerandom"
 require "stubs/refunds"
 require "stubs/payouts"
 require "stubs/disputes"
+require "stubs/payment_intents"
 
 module Stubs
   VALID_ACCESS_TOKEN = "valid_access_token"
