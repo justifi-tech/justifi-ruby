@@ -14,6 +14,19 @@ module Justifi
       def list(params: {}, headers: {})
         JustifiOperations.execute_get_request("/v1/payment_methods", params, headers)
       end
+
+      def get(token:, headers: {})
+        JustifiOperations.execute_get_request("/v1/payment_methods/#{token}",
+          {},
+          headers)
+      end
+
+      def update(token:, card_params:, headers: {})
+        JustifiOperations.idempotently_request("/v1/payment_methods/#{token}",
+          method: :patch,
+          params: card_params,
+          headers: {})
+      end
     end
   end
 end
