@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   generate_coverage:
@@ -28,9 +25,6 @@ jobs:
           API_STAGING_BASE_URL: ${{secrets.API_STAGING_BASE_URL}}
           ENVIRONMENT: ${{secrets.ENVIRONMENT}}
         run: bundle exec rspec
-
-      - name: Ls files
-        run: ls -la coverage
 
       - name: Deploy coverage to S3
         uses: zdurham/s3-upload-github-action@master

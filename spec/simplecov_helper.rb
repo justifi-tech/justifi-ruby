@@ -18,7 +18,6 @@ SimpleCovSmallBadge::Formatter.class_eval do
   end
 end
 
-# Wherever your SimpleCov.start block is (spec_helper.rb, test_helper.rb, or .simplecov)
 SimpleCov.start do
   # call SimpleCov::Formatter::BadgeFormatter after the normal HTMLFormatter
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
