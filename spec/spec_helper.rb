@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "simplecov_helper"
 require "justifi"
 require "dotenv/load"
 require "webmock/rspec"
