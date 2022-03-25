@@ -34,6 +34,14 @@ module Justifi
           params: params,
           headers: {})
       end
+
+      def capture(payment_id:, amount: nil, headers: {}, idempotency_key: nil)
+        params = amount.nil? ? {} : {amount: amount}
+        JustifiOperations.idempotently_request("/v1/payments/#{payment_id}/capture",
+          method: :post,
+          params: params,
+          headers: {})
+      end
     end
   end
 end
