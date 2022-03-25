@@ -1,4 +1,4 @@
-# JustiFi Ruby
+# JustiFi Ruby ![Coverage](https://justifi-gem-assets.s3.us-east-2.amazonaws.com/coverage_badge_total.svg)
 
 The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language. 
 It includes a pre-defined set of modules and classes that are essentially wrapped versions of our API resources.

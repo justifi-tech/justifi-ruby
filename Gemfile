@@ -15,4 +15,7 @@ group :development, :test do
   gem "rubocop"
   gem "standard"
   gem "webmock", ">= 3.8.0"
+  gem "simplecov-small-badge", require: false
 end
+
+gem "simplecov", require: false, group: :test
