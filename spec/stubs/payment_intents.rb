@@ -205,6 +205,76 @@ module Stubs
           .to_return(status: 201, body: response_body, headers: {})
       end
 
+      def timeout(params)
+        response_body = {
+          "id": 1,
+          "type": "transaction",
+          "data": {
+            "id": "pi_xyz",
+            "account_id": "acc_xyz",
+            "amount": 10000,
+            "currency": "usd",
+            "description": "my_order_xyz",
+            "metadata": {},
+            "payment_method": {
+              "card": {
+                "id": "pm_123xyz",
+                "acct_last_four": 4242,
+                "brand": "Visa",
+                "name": "Amanda Kessel",
+                "token": "pm_123xyz",
+                "metadata": {},
+                "created_at": "2021-01-01T12:00:00Z",
+                "updated_at": "2021-01-01T12:00:00Z"
+              }
+            },
+            "status": "requires_payment_method",
+            "created_at": "2021-01-01T12:00:00Z",
+            "updated_at": "2021-01-01T12:00:00Z"
+          },
+          "page_info": nil
+        }.to_json
+
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_timeout
+      end
+
+      def custom_error(params)
+        response_body = {
+          "id": 1,
+          "type": "transaction",
+          "data": {
+            "id": "pi_xyz",
+            "account_id": "acc_xyz",
+            "amount": 10000,
+            "currency": "usd",
+            "description": "my_order_xyz",
+            "metadata": {},
+            "payment_method": {
+              "card": {
+                "id": "pm_123xyz",
+                "acct_last_four": 4242,
+                "brand": "Visa",
+                "name": "Amanda Kessel",
+                "token": "pm_123xyz",
+                "metadata": {},
+                "created_at": "2021-01-01T12:00:00Z",
+                "updated_at": "2021-01-01T12:00:00Z"
+              }
+            },
+            "status": "requires_payment_method",
+            "created_at": "2021-01-01T12:00:00Z",
+            "updated_at": "2021-01-01T12:00:00Z"
+          },
+          "page_info": nil
+        }.to_json
+
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_raise("Custom Error")
+      end
+
       def success_capture(params, payment_intent_id)
         response_body = {
           "id": 1,

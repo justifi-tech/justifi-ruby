@@ -46,7 +46,8 @@ RSpec.describe Justifi::Util do
           [:f, [
             {foo: "1", ghi: "2"},
             {foo: "3", bar: "4"}
-          ]]
+          ]],
+          [:g, [[0, 1]]]
         ]
         expect([
           ["a", 3],
@@ -60,7 +61,9 @@ RSpec.describe Justifi::Util do
           ["f[0][foo]", "1"],
           ["f[0][ghi]", "2"],
           ["f[1][foo]", "3"],
-          ["f[1][bar]", "4"]
+          ["f[1][bar]", "4"],
+          ["g[0]", 0],
+          ["g[1]", 1]
         ]).to eq(subject.flatten_params(params))
       end
     end

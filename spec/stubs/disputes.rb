@@ -24,6 +24,12 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
+      def fail_get(dispute_id)
+        WebMock.stub_request(:get, "#{Justifi.api_url}/v1/disputes/#{dispute_id}")
+          .with(headers: DEFAULT_HEADERS)
+          .to_return(status: 404, body: "{}", headers: {})
+      end
+
       def success_list
         response_body = {
           "id": 1,

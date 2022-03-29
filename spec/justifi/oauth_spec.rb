@@ -19,6 +19,10 @@ RSpec.describe Justifi::OAuth do
       it do
         expect(get_token).to be_a(String)
       end
+
+      it do
+        expect(Justifi.token).to be_a(String)
+      end
     end
 
     context "with empty credentials" do
