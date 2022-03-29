@@ -4,11 +4,10 @@ module Justifi
   class JustifiObject
     extend Justifi::JustifiOperations
 
-    attr_reader :raw_response, :id, :headers, :path
+    attr_reader :raw_response, :id, :headers
 
-    def initialize(url_path:, id: nil, headers: {}, raw_response: nil)
+    def initialize(id: nil, headers: {}, raw_response: nil)
       @id = id
-      @url_path = url_path
       @headers = Util.normalize_headers(headers)
       @raw_response = raw_response
     end
@@ -16,12 +15,8 @@ module Justifi
     def self.construct_from(path, response, headers = {})
       values = response.is_a?(JustifiResponse) ? response.data : response
 
-      new(id: values[:id], raw_response: response, url_path: path)
+      new(id: values[:id], raw_response: response)
         .send(:initialize_from, values, headers)
-    end
-
-    def success?
-      !@raw_response.nil? && @raw_response.success
     end
 
     protected def initialize_from(values, headers)
