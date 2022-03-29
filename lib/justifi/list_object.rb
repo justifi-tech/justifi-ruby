@@ -18,7 +18,7 @@ module Justifi
       JustifiObject.construct_from({data: []}, headers)
     end
 
-    def initialize(justifi_object:, params: {}, headers: {}, path: path)
+    def initialize(justifi_object:, path:, params: {}, headers: {})
       @justifi_object = justifi_object
       @path = path
       @request_params = params

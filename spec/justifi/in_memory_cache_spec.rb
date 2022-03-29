@@ -18,6 +18,15 @@ RSpec.describe Justifi::InMemoryCache do
     end
   end
 
+  context "#expire_key!" do
+    it do
+      data = {"key1" => "value1"}
+      Justifi.cache.init(data)
+      Justifi.cache.expire_key!("key1")
+      expect(Justifi.cache.data).to be_empty
+    end
+  end
+
   describe "#set" do
     context "with default expiration time" do
       it do

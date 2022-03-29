@@ -81,8 +81,7 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def empty_list(page_info = {}, card_id = nil)
-        card_id ||= "pm_123xyz"
+      def empty_list(page_info = {})
         response_body = {
           "id": 1,
           "type": "array",

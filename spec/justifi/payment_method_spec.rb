@@ -65,12 +65,12 @@ RSpec.describe Justifi::PaymentMethod do
         allow_any_instance_of(Justifi::ListObject).to receive(:has_next).and_return(false)
       end
 
-      let(:previous_data) { justifi_object }
+      let(:current_data) { justifi_object }
 
       it do
         expect {
-          previous_data.next_page
-        }.not_to change(previous_data, :data)
+          current_data.next_page
+        }.not_to change(current_data, :data)
       end
     end
   end
