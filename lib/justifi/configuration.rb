@@ -44,8 +44,6 @@ module Justifi
 
     def api_url
       case environment
-      when "production"
-        API_BASE_URL
       when "staging"
         ENV["API_STAGING_BASE_URL"]
       else

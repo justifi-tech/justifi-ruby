@@ -28,6 +28,10 @@ module Justifi
         headers = Util.normalize_headers(headers)
         super(path, params, headers)
       end
+
+      def list(path, params = {}, headers = {})
+        Justifi::ListObject.list(path, params, headers)
+      end
     end
   end
 end

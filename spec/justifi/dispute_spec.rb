@@ -43,6 +43,24 @@ RSpec.describe Justifi::Dispute do
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
+
+    context "with invalid production dispute_id" do
+      before do
+        Justifi.setup(client_id: ENV["CLIENT_ID"],
+                      client_secret: ENV["CLIENT_SECRET"])
+        Justifi.use_production
+        Stubs::OAuth.success_get_token
+        Stubs::Dispute.fail_get(dispute_id)
+      end
+
+      let(:justifi_object) { get_dispute }
+
+      it do
+        expect {
+          justifi_object
+        }.to raise_error(Justifi::InvalidHttpResponseError)
+      end
+    end
   end
 
   describe "#update" do

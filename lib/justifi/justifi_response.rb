@@ -17,10 +17,7 @@ module Justifi
     # repeated multiple times. Using `#[]` will collapse values down to just
     # the first.
     def initialize(hash)
-      if !hash.is_a?(Hash) ||
-          !hash.keys.all? { |n| n.is_a?(String) } ||
-          !hash.values.all? { |a| a.is_a?(Array) } ||
-          !hash.values.all? { |a| a.all? { |v| v.is_a?(String) } }
+      if !hash.is_a?(Hash)
         raise ArgumentError,
           "expect hash to be a map of string header names to arrays of " \
           "header values"
@@ -37,14 +34,6 @@ module Justifi
       hash.each do |k, v|
         @hash[k.downcase] = v
       end
-    end
-
-    def [](name)
-      values = @hash[name.downcase]
-      if values && values.count > 1
-        warn("Duplicate header values for `#{name}`; returning only first")
-      end
-      values ? values.first : nil
     end
   end
 
@@ -90,22 +79,6 @@ module Justifi
       resp.http_body = http_resp.body
       resp.success = http_resp.is_a? Net::HTTPSuccess
       resp.error_message = resp.data.dig(:error, :message)
-      JustifiResponseBase.populate_for_net_http(resp, http_resp)
-      resp
-    end
-  end
-
-  # JustifiHeadersOnlyResponse includes only header-related vitals of the
-  # response. This is used for streaming requests where the response was read
-  # directly in a block and we explicitly don't want to store the body of the
-  # response in memory.
-  class JustifiHeadersOnlyResponse
-    include JustifiResponseBase
-
-    # Initializes a JustifiHeadersOnlyResponse object from a
-    # Net::HTTP::HTTPResponse object.
-    def self.from_net_http(http_resp)
-      resp = JustifiHeadersOnlyResponse.new
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
     end

@@ -21,7 +21,7 @@ module Justifi
         path = "#{path}?#{query}"
         response = execute_request(:get, path, nil, headers)
 
-        ListObject.construct_from(path, response, headers)
+        JustifiObject.construct_from(path, response, headers)
       end
 
       def execute_patch_request(path, body, headers)

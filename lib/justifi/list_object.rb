@@ -1,11 +1,28 @@
 # frozen_string_literal: true
 
 module Justifi
-  class ListObject < JustifiObject
+  class ListObject
+    extend Forwardable
+
+    attr_reader :justifi_object
+    attr_accessor :request_params, :request_headers, :path
+
+    def_delegators :@justifi_object, :data, :data
+    def_delegators :@justifi_object, :page_info, :page_info
+    def_delegators :@justifi_object, :http_status, :http_status
+    def_delegators :@justifi_object, :raw_response, :raw_response
+
     # An empty list object to return when has_next or has_previous
     # does not exist
     def self.empty_list(headers = {})
-      ListObject.construct_from({data: []}, headers)
+      JustifiObject.construct_from({data: []}, headers)
+    end
+
+    def initialize(justifi_object:, path:, params: {}, headers: {})
+      @justifi_object = justifi_object
+      @path = path
+      @request_params = params
+      @request_headers = headers
     end
 
     # Iterates through each resource in the page represented by the current
@@ -41,7 +58,7 @@ module Justifi
 
       params[:after_cursor] = end_cursor
 
-      list(params, headers)
+      Justifi::ListObject.list(path, @request_params.merge(params), @request_headers.merge(headers))
     end
 
     # Fetches the next page based on page_info[:start_cursor] paginaton
@@ -50,11 +67,12 @@ module Justifi
 
       params[:before_cursor] = start_cursor
 
-      list(params, headers)
+      Justifi::ListObject.list(path, @request_params.merge(params), @request_headers.merge(headers))
     end
 
-    def list(params, headers)
-      JustifiOperations.execute_get_request(path, params, headers)
+    def self.list(path, params = {}, headers = {})
+      justifi_object = JustifiOperations.execute_get_request(path, params, headers)
+      new(justifi_object: justifi_object, path: path, params: params, headers: headers)
     end
   end
 end

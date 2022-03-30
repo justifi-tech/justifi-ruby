@@ -205,6 +205,18 @@ module Stubs
           .to_return(status: 201, body: response_body, headers: {})
       end
 
+      def timeout(params)
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_timeout
+      end
+
+      def custom_error(params)
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
+          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .to_raise("Custom Error")
+      end
+
       def success_capture(params, payment_intent_id)
         response_body = {
           "id": 1,

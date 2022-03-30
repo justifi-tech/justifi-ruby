@@ -128,6 +128,22 @@ RSpec.describe Justifi::PaymentIntent do
         expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
+
+    context "when raising a retryable error" do
+      before do
+        Stubs::PaymentIntent.timeout(payment_intent_params)
+      end
+
+      it { expect { justifi_object }.to raise_error(Net::OpenTimeout) }
+    end
+
+    context "when raising custom Error" do
+      before do
+        Stubs::PaymentIntent.custom_error(payment_intent_params)
+      end
+
+      it { expect { justifi_object }.to raise_error(StandardError) }
+    end
   end
 
   describe "#capture" do
