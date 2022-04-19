@@ -8,8 +8,8 @@ on:
 jobs:
   run_tests:
     name: 📋 Verify
-    uses: justifi-tech/justifi-ruby/.github/workflows/verify.yml@main
-    if: github.ref == 'refs/heads/main'
+    uses: justifi-tech/justifi-ruby/.github/workflows/verify.yml@gem-push-and-build-via-ci--QA
+    if: github.ref == 'refs/heads/gem-push-and-build-via-ci--QA'
   build_and_release:
     strategy:
       matrix:
@@ -25,7 +25,7 @@ jobs:
 
     name: 📦 Package and Release on ${{ matrix.pkg_host_name }}
     needs: run_tests
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/gem-push-and-build-via-ci--QA'
 
     runs-on: ubuntu-latest
 
