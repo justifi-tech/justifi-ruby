@@ -3,8 +3,8 @@
 RSpec.describe Justifi::Dispute do
   before do
     Justifi.setup(client_id: ENV["CLIENT_ID"],
-                  client_secret: ENV["CLIENT_SECRET"],
-                  environment: ENV["ENVIRONMENT"])
+      client_secret: ENV["CLIENT_SECRET"],
+      environment: ENV["ENVIRONMENT"])
     Stubs::OAuth.success_get_token
   end
 
@@ -47,7 +47,7 @@ RSpec.describe Justifi::Dispute do
     context "with invalid production dispute_id" do
       before do
         Justifi.setup(client_id: ENV["CLIENT_ID"],
-                      client_secret: ENV["CLIENT_SECRET"])
+          client_secret: ENV["CLIENT_SECRET"])
         Justifi.use_production
         Stubs::OAuth.success_get_token
         Stubs::Dispute.fail_get(dispute_id)
