@@ -4,7 +4,7 @@ module Justifi
   module Payout
     class << self
       def list(params: {}, headers: {}, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id})
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.execute_get_request("/v1/payouts", params, headers)
       end
 

@@ -172,25 +172,25 @@ module Stubs
 
       def success_create(params)
         response_body = {
-          "id": 1,
-          "type": "transaction",
-          "data": {
-            "id": "pi_xyz",
-            "account_id": "acc_xyz",
-            "amount": 10000,
-            "currency": "usd",
-            "description": "my_order_xyz",
-            "metadata": {},
-            "payment_method": {
-              "card": {
-                "id": "pm_123xyz",
-                "acct_last_four": 4242,
-                "brand": "Visa",
-                "name": "Amanda Kessel",
-                "token": "pm_123xyz",
-                "metadata": {},
-                "created_at": "2021-01-01T12:00:00Z",
-                "updated_at": "2021-01-01T12:00:00Z"
+          id: 1,
+          type: "transaction",
+          data: {
+            id: "pi_xyz",
+            account_id: "acc_xyz",
+            amount: 10000,
+            currency: "usd",
+            description: "my_order_xyz",
+            metadata: {},
+            payment_method: {
+              card: {
+                id: "pm_123xyz",
+                acct_last_four: 4242,
+                brand: "Visa",
+                name: "Amanda Kessel",
+                token: "pm_123xyz",
+                metadata: {},
+                created_at: "2021-01-01T12:00:00Z",
+                updated_at: "2021-01-01T12:00:00Z"
               }
             },
             status: "requires_payment_method",

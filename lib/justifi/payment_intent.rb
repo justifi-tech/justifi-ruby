@@ -4,12 +4,12 @@ module Justifi
   module PaymentIntent
     class << self
       def list(params: {}, headers: {}, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id}) if seller_account_id
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.execute_get_request("/v1/payment_intents", params, headers)
       end
 
       def list_payments(id:, params: {}, headers: {}, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id}) if seller_account_id
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.execute_get_request("/v1/payment_intents/#{id}/payments", params, headers)
       end
 
@@ -28,7 +28,7 @@ module Justifi
       end
 
       def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.idempotently_request("/v1/payment_intents",
           method: :post,
           params: params,

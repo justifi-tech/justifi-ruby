@@ -4,7 +4,7 @@ module Justifi
   module Payment
     class << self
       def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.idempotently_request("/v1/payments",
           method: :post,
           params: params,
@@ -20,7 +20,7 @@ module Justifi
       end
 
       def list(params: {}, headers: {}, seller_account_id: nil)
-        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
+        headers[:seller_account] = seller_account_id if seller_account_id
         JustifiOperations.execute_get_request("/v1/payments", params, headers)
       end
 
