@@ -3,7 +3,8 @@
 module Justifi
   module Payment
     class << self
-      def create(params: {}, headers: {}, idempotency_key: nil)
+      def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil)
+        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
         JustifiOperations.idempotently_request("/v1/payments",
           method: :post,
           params: params,
@@ -18,7 +19,8 @@ module Justifi
           headers: {})
       end
 
-      def list(params: {}, headers: {})
+      def list(params: {}, headers: {}, seller_account_id: nil)
+        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
         JustifiOperations.execute_get_request("/v1/payments", params, headers)
       end
 

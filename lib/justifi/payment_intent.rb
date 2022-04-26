@@ -3,11 +3,13 @@
 module Justifi
   module PaymentIntent
     class << self
-      def list(params: {}, headers: {})
+      def list(params: {}, headers: {}, seller_account_id: nil)
+        headers.merge!({seller_account: seller_account_id}) if seller_account_id
         JustifiOperations.execute_get_request("/v1/payment_intents", params, headers)
       end
 
-      def list_payments(id:, params: {}, headers: {})
+      def list_payments(id:, params: {}, headers: {}, seller_account_id: nil)
+        headers.merge!({seller_account: seller_account_id}) if seller_account_id
         JustifiOperations.execute_get_request("/v1/payment_intents/#{id}/payments", params, headers)
       end
 
@@ -21,21 +23,25 @@ module Justifi
         JustifiOperations.idempotently_request("/v1/payment_intents/#{id}",
           method: :patch,
           params: params,
-          headers: {})
+          headers: headers,
+          idempotency_key: idempotency_key)
       end
 
-      def create(params: {}, headers: {}, idempotency_key: nil)
+      def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil)
+        headers.merge!({seller_account: seller_account_id}) unless seller_account_id.nil?
         JustifiOperations.idempotently_request("/v1/payment_intents",
           method: :post,
           params: params,
-          headers: headers)
+          headers: headers,
+          idempotency_key: idempotency_key)
       end
 
       def capture(id:, params:, headers: {}, idempotency_key: nil)
         JustifiOperations.idempotently_request("/v1/payment_intents/#{id}/capture",
           method: :post,
           params: params,
-          headers: {})
+          headers: headers,
+          idempotency_key: idempotency_key)
       end
     end
   end
