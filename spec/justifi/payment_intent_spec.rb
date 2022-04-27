@@ -140,8 +140,8 @@ RSpec.describe Justifi::PaymentIntent do
       it do
         expect(justifi_object).to be_a(Justifi::JustifiObject)
         expect(justifi_object.raw_response.http_status).to eq(201)
-        expect(WebMock).to have_requested(:post, "#{Justifi.api_url}/v1/payment_intents").
-          with(headers: headers(params: payment_intent_params, seller_account_id: seller_account_id)).once
+        expect(WebMock).to have_requested(:post, "#{Justifi.api_url}/v1/payment_intents")
+          .with(headers: headers(params: payment_intent_params, seller_account_id: seller_account_id)).once
       end
     end
 

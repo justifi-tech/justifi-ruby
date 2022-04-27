@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    justifi (0.5.0)
+    justifi (0.5.1)
 
 GEM
   remote: https://rubygems.org/
@@ -22,7 +22,7 @@ GEM
     public_suffix (4.0.7)
     rainbow (3.1.1)
     rake (13.0.6)
-    regexp_parser (2.3.0)
+    regexp_parser (2.3.1)
     repo-small-badge (0.2.7)
       victor (~> 0.2.8)
     rexml (3.2.5)
@@ -39,13 +39,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
     rspec-support (3.11.0)
-    rubocop (1.27.0)
+    rubocop (1.28.2)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.16.0, < 2.0)
+      rubocop-ast (>= 1.17.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.17.0)
@@ -63,8 +63,8 @@ GEM
       repo-small-badge (~> 0.2.7)
       simplecov (~> 0.17)
     simplecov_json_formatter (0.1.4)
-    standard (1.10.0)
-      rubocop (= 1.27.0)
+    standard (1.11.0)
+      rubocop (= 1.28.2)
       rubocop-performance (= 1.13.3)
     unicode-display_width (2.1.0)
     victor (0.2.8)

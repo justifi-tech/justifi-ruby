@@ -170,7 +170,7 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def success_create(params, seller_account_id=nil)
+      def success_create(params, seller_account_id = nil)
         response_body = {
           id: 1,
           type: "transaction",

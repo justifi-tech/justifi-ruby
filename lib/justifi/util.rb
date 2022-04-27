@@ -78,5 +78,12 @@ module Justifi
       end
       result
     end
+
+    # Creates a computed signature that can verify the payload sent.
+    # The Justifi.client_secret is used to encrypt the payload
+    def self.compute_signature(params)
+      payload = params.keys.sort.map { |k| "#{k}#{params[k]}" }.join("")
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), Justifi.client_secret, payload)
+    end
   end
 end
