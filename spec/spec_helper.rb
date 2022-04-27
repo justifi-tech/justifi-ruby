@@ -26,7 +26,6 @@ RSpec.configure do |config|
     headers = DEFAULT_HEADERS.dup
 
     headers["Seller-Account"] = seller_account_id if seller_account_id
-    headers["Justifi-Signature"] = Justifi::Util.compute_signature(params) if params
     headers
   end
 end
