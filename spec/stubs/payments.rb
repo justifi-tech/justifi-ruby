@@ -32,7 +32,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params))
           .to_return(status: 201, body: response_body, headers: {})
       end
 
@@ -78,6 +78,7 @@ module Stubs
       end
 
       def success_capture(amount, payment_id)
+        params = {amount: amount}
         response_body = {
           id: 1,
           type: "transaction",
@@ -123,7 +124,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments/#{payment_id}/capture")
-          .with(body: {amount: amount}.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params))
           .to_return(status: 201, body: response_body, headers: {})
       end
 
@@ -148,7 +149,7 @@ module Stubs
         payment_id = params.delete(:payment_id)
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments/#{payment_id}/refunds")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params))
           .to_return(status: 201, body: response_body, headers: {})
       end
 

@@ -22,11 +22,11 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  def headers(seller_account_id = nil)
-    if seller_account_id
-      {"Seller-Account": seller_account_id}.merge(DEFAULT_HEADERS)
-    else
-      DEFAULT_HEADERS
-    end
+  def headers(seller_account_id: nil, params: nil)
+    headers = DEFAULT_HEADERS.dup
+
+    headers["Seller-Account"] = seller_account_id if seller_account_id
+    headers["Justifi-Signature"] = Justifi::Util.compute_signature(params) if params
+    headers
   end
 end
