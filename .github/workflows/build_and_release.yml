@@ -10,6 +10,12 @@ jobs:
     name: 📋 Verify
     uses: justifi-tech/justifi-ruby/.github/workflows/verify.yml@main
     if: github.ref == 'refs/heads/main'
+    secrets:
+      CLIENT_ID: ${{secrets.CLIENT_STAGING_ID }}
+      CLIENT_SECRET: ${{secrets.CLIENT_SECRET_STAGING }}
+      API_STAGING_BASE_URL: ${{secrets.API_STAGING_BASE_URL}}
+      ENVIRONMENT: ${{secrets.ENVIRONMENT}}
+
   build_and_release:
     strategy:
       matrix:
