@@ -3,8 +3,8 @@
 RSpec.describe Justifi::PaymentMethod do
   before do
     Justifi.setup(client_id: ENV["CLIENT_ID"],
-                  client_secret: ENV["CLIENT_SECRET"],
-                  environment: ENV["ENVIRONMENT"])
+      client_secret: ENV["CLIENT_SECRET"],
+      environment: ENV["ENVIRONMENT"])
     Stubs::OAuth.success_get_token
   end
 

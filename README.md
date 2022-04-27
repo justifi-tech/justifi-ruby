@@ -192,6 +192,17 @@ payment = Justifi::Payment.get(payment_id: 'py_xyz')
 refund = Justifi::Refund.get(refund_id: 're_xyz')
 ```
 
+## Seller Account
+
+You can make requests using the `Seller-Account` header in order to process resources as a seller-account.
+
+```ruby
+seller_account_id = "acc_xyzs"
+Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: seller_account_id)
+```
+
+Any API resource using the `seller_account_id` variable will include the `Seller-Account` header and be
+processed as the seller account.
 
 ## Contributing
 

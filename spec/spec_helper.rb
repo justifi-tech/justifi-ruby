@@ -6,6 +6,11 @@ require "dotenv/load"
 require "webmock/rspec"
 require "stubs"
 
+DEFAULT_HEADERS = {
+  "Content-Type" => "application/json",
+  "User-Agent" => "justifi-ruby-#{Justifi::VERSION}"
+}.freeze
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -15,5 +20,13 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  def headers(seller_account_id = nil)
+    if seller_account_id
+      {"Seller-Account": seller_account_id}.merge(DEFAULT_HEADERS)
+    else
+      DEFAULT_HEADERS
+    end
   end
 end
