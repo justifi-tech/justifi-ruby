@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - lib/justifi/version.rb
+  workflow_dispatch:
 
 jobs:
   run_tests:
