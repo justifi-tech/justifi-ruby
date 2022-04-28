@@ -12,8 +12,8 @@ jobs:
     uses: justifi-tech/justifi-ruby/.github/workflows/verify.yml@main
     if: github.ref == 'refs/heads/main'
     secrets:
-      CLIENT_ID: ${{secrets.CLIENT_STAGING_ID }}
-      CLIENT_SECRET: ${{secrets.CLIENT_SECRET_STAGING }}
+      CLIENT_STAGING_ID: ${{secrets.CLIENT_STAGING_ID }}
+      CLIENT_SECRET_STAGING: ${{secrets.CLIENT_SECRET_STAGING }}
       API_STAGING_BASE_URL: ${{secrets.API_STAGING_BASE_URL}}
       ENVIRONMENT: ${{secrets.ENVIRONMENT}}
 
