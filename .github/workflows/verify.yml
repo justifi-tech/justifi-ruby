@@ -7,6 +7,11 @@ on:
     branches:
     - main
   workflow_call:
+    secrets:
+      CLIENT_STAGING_ID:     {required: true}
+      CLIENT_SECRET_STAGING: {required: true}
+      API_STAGING_BASE_URL:  {required: true}
+      ENVIRONMENT:           {required: true}
 
 jobs:
   linters:
