@@ -5,23 +5,16 @@ It includes a pre-defined set of modules and classes that are essentially wrappe
 
 ## Installation
 
-From the command line:
-```bash
-gem install justifi --version "0.4.0" --source "https://rubygems.pkg.github.com/justifi-tech"
-```
-OR
-
 Add these lines to your application's Gemfile:
 
 ```ruby
 source "https://rubygems.pkg.github.com/justifi-tech" do
-  gem "justifi", "0.4.0"
+  gem "justifi"
 end
 ```
 And then execute:
 
     $ bundle install
-
 
 ## Setup
 

@@ -19,6 +19,7 @@ require "justifi/dispute"
 require "justifi/payment_method"
 require "justifi/payment_intent"
 require "justifi/in_memory_cache"
+require "justifi/webhook"
 
 module Justifi
   @config = Justifi::Configuration.setup

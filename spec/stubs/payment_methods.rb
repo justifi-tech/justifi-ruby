@@ -19,7 +19,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_methods")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params))
           .to_return(status: 201, body: response_body, headers: {})
       end
 

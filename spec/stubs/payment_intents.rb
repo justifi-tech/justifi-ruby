@@ -170,7 +170,7 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def success_create(params)
+      def success_create(params, seller_account_id = nil)
         response_body = {
           id: 1,
           type: "transaction",
@@ -201,7 +201,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params, seller_account_id: seller_account_id))
           .to_return(status: 201, body: response_body, headers: {})
       end
 
@@ -248,7 +248,7 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents/#{payment_intent_id}/capture")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers(params: params))
           .to_return(status: 201, body: response_body, headers: {})
       end
     end

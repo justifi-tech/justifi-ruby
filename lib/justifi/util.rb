@@ -78,5 +78,12 @@ module Justifi
       end
       result
     end
+
+    # Creates a computed signature that can verify the payload sent.
+    # Each webhook has its own signature key that can be achieved in JustiFi's platform
+    def self.compute_signature(received_event, timestamp, secret_key)
+      timestamp_payload = "#{timestamp}.#{received_event.to_json}"
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret_key, timestamp_payload)
+    end
   end
 end
