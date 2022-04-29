@@ -8,9 +8,7 @@ It includes a pre-defined set of modules and classes that are essentially wrappe
 Add these lines to your application's Gemfile:
 
 ```ruby
-source "https://rubygems.pkg.github.com/justifi-tech" do
-  gem "justifi"
-end
+gem "justifi"
 ```
 And then execute:
 
@@ -196,6 +194,20 @@ Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: 
 
 Any API resource using the `seller_account_id` variable will include the `Seller-Account` header and be
 processed as the seller account.
+
+## Webhook Signature Verification
+
+Webhooks are secured by signature verification. An encrypted header is sent as a POST to your API endpoint (JUSTIFI-SIGNATURE),
+which will need to be decrypted and verified with the signature secret provided.
+You can use the JustiFi Ruby gem to validate the signature.
+
+```ruby
+received_event = { id: "py_..." } # JustiFi webhook event
+signature = "2463896d3cb..." # justifi-signature header
+timestamp  = "1651076887..." # justifi-timestamp header
+secret_key  = "sigk_2..." # secret key used for this webhook
+Justifi::Webhook.verify_signature(received_event: received_event, timestamp: timestamp, secret_key: secret_key, signature: signature) # valid or not
+```
 
 ## Contributing
 
