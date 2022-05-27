@@ -2,6 +2,7 @@ require "securerandom"
 
 require "stubs/refunds"
 require "stubs/payouts"
+require "stubs/balance_transactions"
 require "stubs/disputes"
 require "stubs/payment_intents"
 require "stubs/payment_methods"
