@@ -109,7 +109,8 @@ RSpec.describe Justifi::Payment do
           amount: 1000,
           description: nil,
           reason: Justifi::REFUND_REASONS[2],
-          payment_id: created_payment.id
+          payment_id: created_payment.id,
+          metadata: {meta_id: "123_zxy"}
         }
       }
 
