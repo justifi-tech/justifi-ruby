@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    justifi (0.6.0)
+    justifi (0.6.1)
 
 GEM
   remote: https://rubygems.org/
@@ -89,4 +89,4 @@ DEPENDENCIES
   webmock (>= 3.8.0)
 
 BUNDLED WITH
-   2.2.3
+   2.2.15

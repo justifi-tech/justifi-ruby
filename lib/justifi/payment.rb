@@ -11,8 +11,8 @@ module Justifi
           headers: headers)
       end
 
-      def create_refund(amount:, payment_id:, reason: nil, description: nil)
-        refund_params = {amount: amount, description: description, reason: reason}
+      def create_refund(amount:, payment_id:, reason: nil, description: nil, metadata: nil)
+        refund_params = {amount: amount, description: description, reason: reason, metadata: metadata}
         JustifiOperations.idempotently_request("/v1/payments/#{payment_id}/refunds",
           method: :post,
           params: refund_params,
