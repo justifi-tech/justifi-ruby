@@ -230,3 +230,6 @@ the gem to github packages.
 
 Everyone interacting in the JustApi project's codebases, issue trackers, chat
 rooms and mailing lists is expected to follow the [code of conduct][].
+
+
+[code of conduct]: https://github.com/justifi-tech/justifi-ruby/blob/main/CODE_OF_CONDUCT.md
