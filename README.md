@@ -229,4 +229,4 @@ the gem to github packages.
 ## Code of Conduct
 
 Everyone interacting in the JustApi project's codebases, issue trackers, chat
-rooms and mailing lists is expected to follow the [code of conduct][].
+rooms and mailing lists is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
