@@ -69,7 +69,7 @@ module Justifi
       SecureRandom.uuid
     end
 
-    def seller_account_deprecation_warn
+    def seller_account_deprecation_warning
       warn "[DEPRECATED] seller account has been deprecated, please use sub account"
     end
   end

@@ -170,42 +170,7 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def success_create_seller_account(params, seller_account_id = nil)
-        response_body = {
-          id: 1,
-          type: "transaction",
-          data: {
-            id: "pi_xyz",
-            account_id: "acc_xyz",
-            amount: 10000,
-            currency: "usd",
-            description: "my_order_xyz",
-            metadata: {},
-            payment_method: {
-              card: {
-                id: "pm_123xyz",
-                acct_last_four: 4242,
-                brand: "Visa",
-                name: "Amanda Kessel",
-                token: "pm_123xyz",
-                metadata: {},
-                created_at: "2021-01-01T12:00:00Z",
-                updated_at: "2021-01-01T12:00:00Z"
-              }
-            },
-            status: "requires_payment_method",
-            created_at: "2021-01-01T12:00:00Z",
-            updated_at: "2021-01-01T12:00:00Z"
-          },
-          page_info: nil
-        }.to_json
-
-        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payment_intents")
-          .with(body: params.to_json, headers: headers(params: params, seller_account_id: seller_account_id))
-          .to_return(status: 201, body: response_body, headers: {})
-      end
-
-      def success_create_sub_account(params, sub_account_id = nil)
+      def success_create(params, sub_account_id = nil)
         response_body = {
           id: 1,
           type: "transaction",

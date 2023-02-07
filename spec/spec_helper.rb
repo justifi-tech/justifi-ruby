@@ -27,7 +27,7 @@ RSpec.configure do |config|
     headers = DEFAULT_HEADERS.dup
 
     if seller_account_id
-      Justifi.seller_account_deprecation_warn
+      Justifi.seller_account_deprecation_warning
       headers["Seller-Account"] = seller_account_id
     end
     headers["Sub-Account"] = sub_account_id if sub_account_id

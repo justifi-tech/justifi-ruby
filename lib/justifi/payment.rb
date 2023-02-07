@@ -4,11 +4,8 @@ module Justifi
   module Payment
     class << self
       def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil, sub_account_id: nil)
-        if seller_account_id
-          Justifi.seller_account_deprecation_warn
-          headers[:seller_account] = seller_account_id
-        end
-        headers[:sub_account] = sub_account_id if sub_account_id
+        Justifi.seller_account_deprecation_warning if seller_account_id
+        headers[:sub_account] = sub_account_id || seller_account_id if sub_account_id || seller_account_id
 
         JustifiOperations.idempotently_request("/v1/payments",
           method: :post,
@@ -25,11 +22,8 @@ module Justifi
       end
 
       def list(params: {}, headers: {}, seller_account_id: nil, sub_account_id: nil)
-        if seller_account_id
-          Justifi.seller_account_deprecation_warn
-          headers[:seller_account] = seller_account_id
-        end
-        headers[:sub_account] = sub_account_id if sub_account_id
+        Justifi.seller_account_deprecation_warning if seller_account_id
+        headers[:sub_account] = sub_account_id || seller_account_id if sub_account_id || seller_account_id
 
         JustifiOperations.execute_get_request("/v1/payments", params, headers)
       end
