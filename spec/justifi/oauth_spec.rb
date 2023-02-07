@@ -2,26 +2,21 @@
 
 RSpec.describe Justifi::OAuth do
   describe "#get_token" do
-    let(:get_token) { subject.get_token }
-
     context "with valid params" do
       before do
-        Justifi.client_id = ENV["CLIENT_ID"]
-        Justifi.client_secret = ENV["CLIENT_SECRET"]
-        Justifi.use_staging
+        Justifi.setup(client_id: ENV["CLIENT_ID"],
+          client_secret: ENV["CLIENT_SECRET"],
+          environment: ENV["ENVIRONMENT"])
         Stubs::OAuth.success_get_token
       end
 
-      it { expect(get_token).to be_a(String) }
-    end
+      it { expect(subject.get_token).to be_a(String) }
 
-    context "with cached values" do
-      it do
-        expect(get_token).to be_a(String)
-      end
-
-      it do
-        expect(Justifi.token).to be_a(String)
+      context "with cached values" do
+        it do
+          expect(subject.get_token).to be_a(String)
+          expect(Justifi.token).to be_a(String)
+        end
       end
     end
 
@@ -29,18 +24,19 @@ RSpec.describe Justifi::OAuth do
       before { Justifi.clear }
 
       it do
-        expect { get_token }.to raise_error(Justifi::BadCredentialsError)
+        expect { subject.get_token }.to raise_error(Justifi::BadCredentialsError)
       end
     end
 
     context "with bad credentials" do
       before do
+        Justifi.clear
         Justifi.client_id = "bad_creds"
         Justifi.client_secret = "bad_creds"
         Stubs::OAuth.fail_get_token
       end
 
-      it { expect { get_token }.to raise_error(Justifi::InvalidHttpResponseError) }
+      it { expect { subject.get_token }.to raise_error(Justifi::InvalidHttpResponseError) }
     end
   end
 end
