@@ -3,13 +3,23 @@
 module Justifi
   module PaymentIntent
     class << self
-      def list(params: {}, headers: {}, seller_account_id: nil)
-        headers[:seller_account] = seller_account_id if seller_account_id
+      def list(params: {}, headers: {}, seller_account_id: nil, sub_account_id: nil)
+        if seller_account_id
+          Justifi.seller_account_deprecation_warn
+          headers[:seller_account] = seller_account_id
+        end
+        headers[:sub_account] = sub_account_id if sub_account_id
+
         JustifiOperations.execute_get_request("/v1/payment_intents", params, headers)
       end
 
-      def list_payments(id:, params: {}, headers: {}, seller_account_id: nil)
-        headers[:seller_account] = seller_account_id if seller_account_id
+      def list_payments(id:, params: {}, headers: {}, seller_account_id: nil, sub_account_id: nil)
+        if seller_account_id
+          Justifi.seller_account_deprecation_warn
+          headers[:seller_account] = seller_account_id
+        end
+        headers[:sub_account] = sub_account_id if sub_account_id
+
         JustifiOperations.execute_get_request("/v1/payment_intents/#{id}/payments", params, headers)
       end
 
@@ -27,8 +37,13 @@ module Justifi
           idempotency_key: idempotency_key)
       end
 
-      def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil)
-        headers[:seller_account] = seller_account_id if seller_account_id
+      def create(params: {}, headers: {}, idempotency_key: nil, seller_account_id: nil, sub_account_id: nil)
+        if seller_account_id
+          Justifi.seller_account_deprecation_warn
+          headers[:seller_account] = seller_account_id
+        end
+        headers[:sub_account] = sub_account_id if sub_account_id
+
         JustifiOperations.idempotently_request("/v1/payment_intents",
           method: :post,
           params: params,

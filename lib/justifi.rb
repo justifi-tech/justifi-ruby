@@ -68,6 +68,10 @@ module Justifi
     def get_idempotency_key
       SecureRandom.uuid
     end
+
+    def seller_account_deprecation_warn
+      warn "[DEPRECATED] seller account has been deprecated, please use sub account"
+    end
   end
 
   class BadCredentialsError < StandardError; end

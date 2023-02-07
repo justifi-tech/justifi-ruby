@@ -3,8 +3,13 @@
 module Justifi
   module Dispute
     class << self
-      def list(params: {}, headers: {}, seller_account_id: nil)
-        headers[:seller_account] = seller_account_id if seller_account_id
+      def list(params: {}, headers: {}, seller_account_id: nil, sub_account_id: nil)
+        if seller_account_id
+          Justifi.seller_account_deprecation_warn
+          headers[:seller_account] = seller_account_id
+        end
+        headers[:sub_account] = sub_account_id if sub_account_id
+
         JustifiOperations.execute_get_request("/v1/disputes", params, headers)
       end
 

@@ -5,6 +5,7 @@ require "justifi"
 require "dotenv/load"
 require "webmock/rspec"
 require "stubs"
+require "byebug"
 
 DEFAULT_HEADERS = {
   "Content-Type" => "application/json",
@@ -22,10 +23,15 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  def headers(seller_account_id: nil, params: nil)
+  def headers(sub_account_id: nil, seller_account_id: nil, params: nil)
     headers = DEFAULT_HEADERS.dup
 
-    headers["Seller-Account"] = seller_account_id if seller_account_id
+    if seller_account_id
+      Justifi.seller_account_deprecation_warn
+      headers["Seller-Account"] = seller_account_id
+    end
+    headers["Sub-Account"] = sub_account_id if sub_account_id
+
     headers
   end
 end
