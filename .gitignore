@@ -13,3 +13,5 @@ examples/
 .env
 .byebug_history
 .DS_STORE
+
+Gemfile.lock

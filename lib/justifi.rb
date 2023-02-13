@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "forwardable"
 require "justifi/api_operations"
 
 require "justifi/util"
