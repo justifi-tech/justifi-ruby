@@ -129,19 +129,19 @@ RSpec.describe Justifi::PaymentIntent do
       end
     end
 
-    context "with seller_account header" do
+    context "with sub_account header" do
       before do
-        Stubs::PaymentIntent.success_create(payment_intent_params, seller_account_id)
+        Stubs::PaymentIntent.success_create(payment_intent_params, sub_account_id)
       end
 
-      let(:seller_account_id) { "seller_account_id" }
-      let(:justifi_object) { subject.send(:create, params: payment_intent_params, seller_account_id: seller_account_id) }
+      let(:sub_account_id) { "fake:sub_account_id" }
+      let(:justifi_object) { subject.send(:create, params: payment_intent_params, sub_account_id: sub_account_id) }
 
       it do
         expect(justifi_object).to be_a(Justifi::JustifiObject)
         expect(justifi_object.raw_response.http_status).to eq(201)
         expect(WebMock).to have_requested(:post, "#{Justifi.api_url}/v1/payment_intents")
-          .with(headers: headers(params: payment_intent_params, seller_account_id: seller_account_id)).once
+          .with(headers: headers(params: payment_intent_params, sub_account_id: sub_account_id)).once
       end
     end
 

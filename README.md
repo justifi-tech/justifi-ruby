@@ -183,7 +183,9 @@ payment = Justifi::Payment.get(payment_id: 'py_xyz')
 refund = Justifi::Refund.get(refund_id: 're_xyz')
 ```
 
-## Seller Account
+## Seller Account (deprecated)
+
+_Note: the term seller account has been deprecated and will be removed in future versions. Please use sub account instead_
 
 You can make requests using the `Seller-Account` header in order to process resources as a seller-account.
 
@@ -194,6 +196,18 @@ Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: 
 
 Any API resource using the `seller_account_id` variable will include the `Seller-Account` header and be
 processed as the seller account.
+
+## Sub Account
+
+You can make requests using the `Sub-Account` header in order to process resources as a sub-account.
+
+```ruby
+sub_account_id = "acc_xyzs"
+Justifi::PaymentIntent.create(params: payment_intent_params, sub_account_id: sub_account_id)
+```
+
+Any API resource using the `sub_account_id` variable will include the `Sub-Account` header and be
+processed as the sub account.
 
 ## Webhook Signature Verification
 
@@ -229,4 +243,4 @@ the gem to github packages.
 ## Code of Conduct
 
 Everyone interacting in the JustApi project's codebases, issue trackers, chat
-rooms and mailing lists is expected to follow the [code of conduct][].
+rooms and mailing lists is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).

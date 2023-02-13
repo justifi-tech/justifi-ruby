@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe Justifi::InMemoryCache do
-  describe "#intialize" do
-    before { Justifi.cache.clear_cache }
+  before :each do
+    Justifi.cache.clear_cache
+  end
 
+  describe "#intialize" do
     context "with empty state" do
       it { expect(Justifi.cache.data).to eq({}) }
     end
