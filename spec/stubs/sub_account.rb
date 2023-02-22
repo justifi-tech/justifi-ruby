@@ -123,47 +123,44 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def success_get(payment_id)
+      def success_get(sub_account_id)
         response_body = {
-          id: "py_xyz",
-          account_id: "acc_xyz",
-          amount: 10000,
-          amount_disputed: 0,
-          amount_refunded: 0,
-          amount_refundable: 10000,
-          balance: 99850,
-          fee_amount: 150,
-          captured: true,
-          capture_strategy: "manual",
-          currency: "usd",
-          customer_id: "cu_xyz",
-          description: "my_order_xyz",
-          disputed: false,
-          disputes: [],
-          error_code: "credit_card_number_invalid",
-          error_description: "Credit Card Number Invalid (Failed LUHN checksum)",
-          is_test: true,
-          metadata: {},
-          payment_intent_id: "py_xyz",
-          payment_method: {
-            card: {
-              id: "pm_123xyz",
-              acct_last_four: 4242,
-              brand: "visa",
-              name: "Amanda Kessel",
-              token: "pm_123xyz",
-              metadata: {},
-              created_at: "2021-01-01T12:00:00Z",
-              updated_at: "2021-01-01T12:00:00Z"
-            }
-          },
-          refunded: false,
-          status: "pending",
-          created_at: "2021-01-01T12:00:00Z",
-          updated_at: "2021-01-01T12:00:00Z"
+          "id"=>"acc_2FDS2gTHkibfz2opfYiweA",
+          "type"=>"account",
+          "page_info"=>nil,
+          "data"=>{
+            "id"=>"acc_2FDS2gTHkibfz2opfYiweA",
+            "account_type"=>"test",
+            "name"=>"Created from Ruby SDK",
+            "processing_ready"=>false,
+            "payout_ready"=>false,
+            "platform_account_id"=>"acc_3FIbl3TIhTUBhXkwaTX59Z",
+            "status"=>"enabled",
+            "currency"=>"usd",
+            "related_accounts"=>{"live_account_id"=>nil, "test_account_id"=>"acc_2FDS2gTHkibfz2opfYiweA"},
+            "created_at"=>"2023-02-22T17:54:10.840Z",
+            "updated_at"=>"2023-02-22T17:54:17.600Z",
+            "application_fee_rates"=>[
+               {"id"=>"afr_3fL3xJqCmVGMsX02Z7eP7h",
+                "transaction_fee"=>37,
+                "currency"=>"usd",
+                "basis_point_rate"=>225,
+                "rate_type"=>"cc",
+                "created_at"=>"2023-02-22T17:54:10.807Z",
+                "updated_at"=>"2023-02-22T17:54:10.807Z"},
+              {"id"=>"afr_5b6GwOqiDVDdONkoszmUvS",
+                "transaction_fee"=>75,
+                "currency"=>"usd",
+                "basis_point_rate"=>45,
+                "rate_type"=>"ach",
+                "created_at"=>"2023-02-22T17:54:10.827Z",
+                "updated_at"=>"2023-02-22T17:54:10.827Z"
+              }
+            ]
+          }
         }.to_json
 
-        WebMock.stub_request(:get, "#{Justifi.api_url}/v1/payments/#{payment_id}")
+        WebMock.stub_request(:get, "#{Justifi.api_url}/v1/sub_accounts/#{sub_account_id}")
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end

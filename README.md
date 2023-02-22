@@ -231,10 +231,11 @@ To list archived sub accounts, use the optional status parameter set to archived
 archived_accounts = Justifi::SubAccount.list(params: {status: "archived"})
 ```
 
+### Get Sub Accounts
 
-
-
-
+```ruby
+sub_account = Justifi::SubAccount.get(sub_account_id: "acc_2FDS2gTHkibfz2opfYiweA")
+```
 
 ## Webhook Signature Verification
 

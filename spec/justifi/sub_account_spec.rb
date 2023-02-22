@@ -15,7 +15,6 @@ RSpec.describe Justifi::SubAccount do
   end
 
   let(:created_sub_account) { subject.send(:create, params: create_params) }
-  let(:sub_account_id) { created_sub_account.id }
 
   describe "#create" do
     let(:justifi_object) { created_sub_account }
@@ -70,21 +69,22 @@ RSpec.describe Justifi::SubAccount do
     end
   end
 
-  # describe "#get" do
-  #   let(:get_payment) { subject.send(:get, payment_id: payment_id) }
+  describe "#get" do
+    let(:get_sub_account) { subject.send(:get, sub_account_id: sub_account_id) }
+    let(:sub_account_id) { created_sub_account.id }
 
-  #   context "with valid params" do
-  #     let(:justifi_object) { get_payment }
+    context "with valid params" do
+      let(:justifi_object) { get_sub_account }
 
-  #     before do
-  #       Stubs::Payment.success_create(payment_params)
-  #       Stubs::Payment.success_get(payment_id)
-  #     end
+      before do
+        Stubs::SubAccount.success_create(create_params)
+        Stubs::SubAccount.success_get(sub_account_id)
+      end
 
-  #     it do
-  #       expect(justifi_object).to be_a(Justifi::JustifiObject)
-  #       expect(justifi_object.raw_response.http_status).to eq(200)
-  #     end
-  #   end
-  # end
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
 end
