@@ -125,37 +125,36 @@ module Stubs
 
       def success_get(sub_account_id)
         response_body = {
-          "id"=>"acc_2FDS2gTHkibfz2opfYiweA",
-          "type"=>"account",
-          "page_info"=>nil,
-          "data"=>{
-            "id"=>"acc_2FDS2gTHkibfz2opfYiweA",
-            "account_type"=>"test",
-            "name"=>"Created from Ruby SDK",
-            "processing_ready"=>false,
-            "payout_ready"=>false,
-            "platform_account_id"=>"acc_3FIbl3TIhTUBhXkwaTX59Z",
-            "status"=>"enabled",
-            "currency"=>"usd",
-            "related_accounts"=>{"live_account_id"=>nil, "test_account_id"=>"acc_2FDS2gTHkibfz2opfYiweA"},
-            "created_at"=>"2023-02-22T17:54:10.840Z",
-            "updated_at"=>"2023-02-22T17:54:17.600Z",
-            "application_fee_rates"=>[
-               {"id"=>"afr_3fL3xJqCmVGMsX02Z7eP7h",
-                "transaction_fee"=>37,
-                "currency"=>"usd",
-                "basis_point_rate"=>225,
-                "rate_type"=>"cc",
-                "created_at"=>"2023-02-22T17:54:10.807Z",
-                "updated_at"=>"2023-02-22T17:54:10.807Z"},
-              {"id"=>"afr_5b6GwOqiDVDdONkoszmUvS",
-                "transaction_fee"=>75,
-                "currency"=>"usd",
-                "basis_point_rate"=>45,
-                "rate_type"=>"ach",
-                "created_at"=>"2023-02-22T17:54:10.827Z",
-                "updated_at"=>"2023-02-22T17:54:10.827Z"
-              }
+          "id" => "acc_2FDS2gTHkibfz2opfYiweA",
+          "type" => "account",
+          "page_info" => nil,
+          "data" => {
+            "id" => "acc_2FDS2gTHkibfz2opfYiweA",
+            "account_type" => "test",
+            "name" => "Created from Ruby SDK",
+            "processing_ready" => false,
+            "payout_ready" => false,
+            "platform_account_id" => "acc_3FIbl3TIhTUBhXkwaTX59Z",
+            "status" => "enabled",
+            "currency" => "usd",
+            "related_accounts" => {"live_account_id" => nil, "test_account_id" => "acc_2FDS2gTHkibfz2opfYiweA"},
+            "created_at" => "2023-02-22T17:54:10.840Z",
+            "updated_at" => "2023-02-22T17:54:17.600Z",
+            "application_fee_rates" => [
+              {"id" => "afr_3fL3xJqCmVGMsX02Z7eP7h",
+               "transaction_fee" => 37,
+               "currency" => "usd",
+               "basis_point_rate" => 225,
+               "rate_type" => "cc",
+               "created_at" => "2023-02-22T17:54:10.807Z",
+               "updated_at" => "2023-02-22T17:54:10.807Z"},
+              {"id" => "afr_5b6GwOqiDVDdONkoszmUvS",
+               "transaction_fee" => 75,
+               "currency" => "usd",
+               "basis_point_rate" => 45,
+               "rate_type" => "ach",
+               "created_at" => "2023-02-22T17:54:10.827Z",
+               "updated_at" => "2023-02-22T17:54:10.827Z"}
             ]
           }
         }.to_json

@@ -13,8 +13,8 @@ module Justifi
 
       def get(sub_account_id:, headers: {})
         JustifiOperations.execute_get_request("/v1/sub_accounts/#{sub_account_id}",
-        {},
-        headers)
+          {},
+          headers)
       end
     end
   end
