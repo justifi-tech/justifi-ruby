@@ -234,7 +234,7 @@ archived_accounts = Justifi::SubAccount.list(params: {status: "archived"})
 ### Get Sub Accounts
 
 ```ruby
-sub_account = Justifi::SubAccount.get(sub_account_id: "acc_2FDS2gTHkibfz2opfYiweA")
+sub_account = Justifi::SubAccount.get(sub_account_id: "acc_xyzs")
 ```
 
 ## Webhook Signature Verification
