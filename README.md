@@ -1,6 +1,6 @@
 # JustiFi Ruby ![Coverage](https://justifi-gem-assets.s3.us-east-2.amazonaws.com/coverage_badge_total.svg)
 
-The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language. 
+The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language.
 It includes a pre-defined set of modules and classes that are essentially wrapped versions of our API resources.
 
 ## Installation
@@ -197,6 +197,12 @@ Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: 
 Any API resource using the `seller_account_id` (deprecated, use `sub_account_id`) variable will include the `Seller-Account` header and be processed as the seller account.
 
 ## Sub Account
+
+### Create a Sub Account
+
+```ruby
+Justifi::SubAccount.create(params: { name: "Created from Ruby SDK" })
+```
 
 You can make requests using the `Sub-Account` header in order to process resources as a sub-account.
 
