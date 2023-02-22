@@ -187,15 +187,14 @@ refund = Justifi::Refund.get(refund_id: 're_xyz')
 
 _Note: the term seller account has been deprecated and will be removed in future versions. Please use sub account instead_
 
-You can make requests using the `Seller-Account` header in order to process resources as a seller-account.
+You can make requests using the `Seller-Account` header (deprecated, use `Sub-Account` header) in order to process resources as a seller-account.
 
 ```ruby
 seller_account_id = "acc_xyzs"
 Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: seller_account_id)
 ```
 
-Any API resource using the `seller_account_id` variable will include the `Seller-Account` header and be
-processed as the seller account.
+Any API resource using the `seller_account_id` (deprecated, use `sub_account_id`) variable will include the `Seller-Account` header and be processed as the seller account.
 
 ## Sub Account
 
