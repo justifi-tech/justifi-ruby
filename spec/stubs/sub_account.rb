@@ -46,7 +46,7 @@ module Stubs
       end
 
       def fail_create
-        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/sub_accounts")
           .with(body: {}, headers: DEFAULT_HEADERS)
           .to_return(status: 404, body: "{}", headers: {})
       end

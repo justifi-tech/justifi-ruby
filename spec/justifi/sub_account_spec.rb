@@ -31,14 +31,25 @@ RSpec.describe Justifi::SubAccount do
       end
     end
 
-    #   context "fails with invalid data" do
-    #     before { Stubs::Payment.fail_create }
-    #     let(:params) { {} }
+    context "fails with empty params" do
+      before { Stubs::SubAccount.fail_create }
+      let(:params) { {} }
 
-    #     it do
-    #       expect { created_payment }.to raise_error(Justifi::InvalidHttpResponseError)
-    #     end
-    #   end
+      it do
+        expect { created_sub_account }.to raise_error(Justifi::InvalidHttpResponseError)
+      end
+    end
+
+    context "with not unique name" do
+      before do
+        Stubs::SubAccount.success_create(create_params)
+        Stubs::SubAccount.fail_create
+      end
+
+      it do
+        expect { created_sub_account }.to raise_error(Justifi::InvalidHttpResponseError)
+      end
+    end
   end
 
   # describe "#list" do
