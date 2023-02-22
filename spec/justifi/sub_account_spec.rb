@@ -52,23 +52,23 @@ RSpec.describe Justifi::SubAccount do
     end
   end
 
-  # describe "#list" do
-  #   let(:params) { {limit: 15} }
-  #   let(:list_payments) { subject.send(:list, params: params) }
+  describe "#list" do
+    let(:params) { {limit: 5} }
+    let(:list_sub_accounts) { subject.send(:list, params: params) }
 
-  #   context "with valid params" do
-  #     let(:justifi_object) { list_payments }
+    context "with valid params" do
+      let(:return_object) { list_sub_accounts }
 
-  #     before do
-  #       Stubs::Payment.success_list
-  #     end
+      before do
+        Stubs::SubAccount.success_list
+      end
 
-  #     it do
-  #       expect(justifi_object).to be_a(Justifi::JustifiObject)
-  #       expect(justifi_object.raw_response.http_status).to eq(200)
-  #     end
-  #   end
-  # end
+      it do
+        expect(return_object).to be_a(Justifi::ListObject)
+        expect(return_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
 
   # describe "#get" do
   #   let(:get_payment) { subject.send(:get, payment_id: payment_id) }

@@ -198,12 +198,6 @@ Any API resource using the `seller_account_id` (deprecated, use `sub_account_id`
 
 ## Sub Account
 
-### Create a Sub Account
-
-```ruby
-Justifi::SubAccount.create(params: { name: "Created from Ruby SDK" })
-```
-
 You can make requests using the `Sub-Account` header in order to process resources as a sub-account.
 
 ```ruby
@@ -213,6 +207,34 @@ Justifi::PaymentIntent.create(params: payment_intent_params, sub_account_id: sub
 
 Any API resource using the `sub_account_id` variable will include the `Sub-Account` header and be
 processed as the sub account.
+
+### Create a Sub Account
+
+```ruby
+Justifi::SubAccount.create(params: { name: "Created from Ruby SDK" })
+```
+
+### List Sub Accounts
+
+```ruby
+sub_accounts = Justifi::SubAccount.list
+
+# pagination
+sub_accounts = Justifi::SubAccount.list(params: {limit: 5})
+sub_accounts = sub_accounts.next_page if sub_accounts.has_next
+sub_accounts = sub_accounts.previous_page  if sub_accounts.has_previous
+```
+
+To list archived sub accounts, use the optional status parameter set to archived
+
+```ruby
+archived_accounts = Justifi::SubAccount.list(params: {status: "archived"})
+```
+
+
+
+
+
 
 ## Webhook Signature Verification
 
