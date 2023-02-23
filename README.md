@@ -237,6 +237,23 @@ archived_accounts = Justifi::SubAccount.list(params: {status: "archived"})
 sub_account = Justifi::SubAccount.get(sub_account_id: "acc_xyzs")
 ```
 
+## Create a Checkout Session
+
+If you are using our hosted checkout solution, follow this to generate a session:
+
+```ruby
+
+# create a payment intent (check params [here](https://developer.justifi.ai/#operation/CreateCheckoutSession))
+py = Justifi::PaymentIntent.create(sub_account_id: "acc_xyz", params: {})
+
+# create a session (check params [here](https://developer.justifi.ai/#operation/CreateCheckoutSession))
+session = Justifi::CheckoutSession.create(params: {})
+
+# use the session id to access your hosted checkout page at:
+hosted_checkout_url = "https://hosted-checkout.justifi.ai/#{session.data.checkout_session_id}"
+```
+
+
 ## Webhook Signature Verification
 
 Webhooks are secured by signature verification. An encrypted header is sent as a POST to your API endpoint (JUSTIFI-SIGNATURE),
