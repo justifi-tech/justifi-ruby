@@ -3,11 +3,11 @@ module Stubs
     class << self
       def success_create(params)
         response_body = {
-          :id => nil,
-          :type => "object",
-          :page_info => nil,
-          :data => {
-            :checkout_session_id => "75e4f3ac2aff4692f17377cc6f6216af9e3fb1826815f97de9a9b6573721acf3"
+          "id" => nil,
+          "type" => "object",
+          "page_info" => nil,
+          "data" => {
+            "checkout_session_id" => "75e4f3ac2aff4692f17377cc6f6216af9e3fb1826815f97de9a9b6573721acf3"
           }
         }.to_json
 

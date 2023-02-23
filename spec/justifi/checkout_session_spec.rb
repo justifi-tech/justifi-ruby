@@ -10,9 +10,9 @@ RSpec.describe Justifi::CheckoutSession do
 
   let(:create_params) do
     {
-      "payment_intent_id": "pi_6PLXZ8X3WRmnGGVq7yEQo4",
-      "after_payment_url": "https://my-platform.test/order/123/success",
-      "back_url": "https://my-platform.test/order/123/cancel"
+      "payment_intent_id" => "pi_6PLXZ8X3WRmnGGVq7yEQo4",
+      "after_payment_url" => "https://my-platform.test/order/123/success",
+      "back_url" => "https://my-platform.test/order/123/cancel"
     }
   end
 
