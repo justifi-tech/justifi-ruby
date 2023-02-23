@@ -49,9 +49,9 @@ module Justifi
           headers: {})
       end
 
-      def balance_transactions(payment_id:, headers: {})
+      def balance_transactions(payment_id:, params: {}, headers: {})
         Justifi::ListObject.list("/v1/payments/#{payment_id}/payment_balance_transactions",
-          {},
+          params,
           headers)
       end
     end
