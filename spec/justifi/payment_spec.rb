@@ -200,4 +200,22 @@ RSpec.describe Justifi::Payment do
       end
     end
   end
+
+  describe "#balance_transactions" do
+    let(:list_balance_transactions) { subject.send(:balance_transactions, payment_id: payment_id) }
+
+    context "with valid params" do
+      let(:justifi_object) { list_balance_transactions }
+
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_balance_transactions(payment_id)
+      end
+
+      it do
+        expect(justifi_object).to be_a(Justifi::ListObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
+  end
 end

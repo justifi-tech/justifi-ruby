@@ -254,6 +254,48 @@ module Stubs
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
+
+      def success_balance_transactions(payment_id)
+        response_body = {
+          "id" => nil,
+          "type" => "array",
+          "page_info" => {
+            "has_previous" => false,
+            "has_next" => false,
+            "start_cursor" => "WyIyMDIzLTAyLTIzIDE5OjIwOjQzLjk1NDEzNDAwMCIsImMzMGQ5NGZlLTc5MDktNGQ5OS04Zjg1LTg5ODYzOTlhYzFiNiJd",
+            "end_cursor" => "WyIyMDIzLTAyLTIzIDE5OjIwOjQzLjkyMjUxNDAwMCIsIjVmODUzMGIyLWE0YzQtNDUxOC1iMjcwLWQxYTdkNGEwYmU1NiJd"
+          },
+          "data" => [{
+            "id" => "pbt_5w3i49NrufNWRFp3P2WJoE",
+            "amount" => -201050,
+            "balance" => 6498950,
+            "created_at" => "2023-02-23T19:20:43.954Z",
+            "currency" => "usd",
+            "financial_transaction_id" => "ft_1FDoN0PwcML87cuEQc8sld",
+            "payment_id" => "py_5PuA93RcM5rzrWmcGpuze1",
+            "payment_balance_txn_type" => "payment_fee",
+            "source_id" => "fee_5k291sviJPFan3ALLC1S6l",
+            "source_type" => "ApplicationFee",
+            "updated_at" => "2023-02-23T19:20:43.954Z"
+          }, {
+            "id" => "pbt_2uF8cxPceBXpbvaMU8ytTK",
+            "amount" => 6700000,
+            "balance" => 6700000,
+            "created_at" => "2023-02-23T19:20:43.922Z",
+            "currency" => "usd",
+            "financial_transaction_id" => "ft_1FDoN0PwcML87cuEQc8sld",
+            "payment_id" => "py_5PuA93RcM5rzrWmcGpuze1",
+            "payment_balance_txn_type" => "payment",
+            "source_id" => "py_5PuA93RcM5rzrWmcGpuze1",
+            "source_type" => "Payment",
+            "updated_at" => "2023-02-23T19:20:43.922Z"
+          }]
+        }.to_json
+
+        WebMock.stub_request(:get, "#{Justifi.api_url}/v1/payments/#{payment_id}/payment_balance_transactions")
+          .with(headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
     end
   end
 end
