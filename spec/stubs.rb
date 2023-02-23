@@ -8,6 +8,7 @@ require "stubs/payment_intents"
 require "stubs/payment_methods"
 require "stubs/payments"
 require "stubs/sub_account"
+require "stubs/checkout_session"
 
 module Stubs
   VALID_ACCESS_TOKEN = "valid_access_token"
