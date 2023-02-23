@@ -22,7 +22,7 @@ RSpec.describe Justifi::BalanceTransaction do
       end
 
       it do
-        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object).to be_a(Justifi::ListObject)
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
