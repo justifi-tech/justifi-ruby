@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "forwardable"
+require "securerandom"
 require "justifi/api_operations"
 
 require "justifi/util"
@@ -17,6 +18,7 @@ require "justifi/sub_account"
 require "justifi/payment"
 require "justifi/refund"
 require "justifi/payout"
+require "justifi/checkout_session"
 require "justifi/balance_transaction"
 require "justifi/dispute"
 require "justifi/payment_method"
