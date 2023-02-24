@@ -1,6 +1,6 @@
 # JustiFi Ruby ![Coverage](https://justifi-gem-assets.s3.us-east-2.amazonaws.com/coverage_badge_total.svg)
 
-The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language. 
+The JustiFi gem provides a simple way to access JustiFi API for apps written in Ruby language.
 It includes a pre-defined set of modules and classes that are essentially wrapped versions of our API resources.
 
 ## Installation
@@ -187,15 +187,14 @@ refund = Justifi::Refund.get(refund_id: 're_xyz')
 
 _Note: the term seller account has been deprecated and will be removed in future versions. Please use sub account instead_
 
-You can make requests using the `Seller-Account` header in order to process resources as a seller-account.
+You can make requests using the `Seller-Account` header (deprecated, use `Sub-Account` header) in order to process resources as a seller-account.
 
 ```ruby
 seller_account_id = "acc_xyzs"
 Justifi::PaymentIntent.create(params: payment_intent_params, seller_account_id: seller_account_id)
 ```
 
-Any API resource using the `seller_account_id` variable will include the `Seller-Account` header and be
-processed as the seller account.
+Any API resource using the `seller_account_id` (deprecated, use `sub_account_id`) variable will include the `Seller-Account` header and be processed as the seller account.
 
 ## Sub Account
 
@@ -208,6 +207,35 @@ Justifi::PaymentIntent.create(params: payment_intent_params, sub_account_id: sub
 
 Any API resource using the `sub_account_id` variable will include the `Sub-Account` header and be
 processed as the sub account.
+
+### Create a Sub Account
+
+```ruby
+Justifi::SubAccount.create(params: { name: "Created from Ruby SDK" })
+```
+
+### List Sub Accounts
+
+```ruby
+sub_accounts = Justifi::SubAccount.list
+
+# pagination
+sub_accounts = Justifi::SubAccount.list(params: {limit: 5})
+sub_accounts = sub_accounts.next_page if sub_accounts.has_next
+sub_accounts = sub_accounts.previous_page  if sub_accounts.has_previous
+```
+
+To list archived sub accounts, use the optional status parameter set to archived
+
+```ruby
+archived_accounts = Justifi::SubAccount.list(params: {status: "archived"})
+```
+
+### Get Sub Accounts
+
+```ruby
+sub_account = Justifi::SubAccount.get(sub_account_id: "acc_xyzs")
+```
 
 ## Webhook Signature Verification
 
