@@ -1,5 +1,3 @@
-require "securerandom"
-
 require "stubs/refunds"
 require "stubs/payouts"
 require "stubs/balance_transactions"
