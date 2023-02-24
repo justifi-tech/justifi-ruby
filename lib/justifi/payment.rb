@@ -25,7 +25,7 @@ module Justifi
         Justifi.seller_account_deprecation_warning if seller_account_id
         headers[:sub_account] = sub_account_id || seller_account_id if sub_account_id || seller_account_id
 
-        JustifiOperations.execute_get_request("/v1/payments", params, headers)
+        Justifi::ListObject.list("/v1/payments", params, headers)
       end
 
       def get(payment_id:, headers: {})
@@ -47,6 +47,12 @@ module Justifi
           method: :post,
           params: params,
           headers: {})
+      end
+
+      def balance_transactions(payment_id:, params: {}, headers: {})
+        Justifi::ListObject.list("/v1/payments/#{payment_id}/payment_balance_transactions",
+          params,
+          headers)
       end
     end
   end
