@@ -10,15 +10,17 @@ module Justifi
         JustifiOperations.idempotently_request("/v1/payments",
           method: :post,
           params: params,
-          headers: headers)
+          headers: headers,
+          idempotency_key: idempotency_key)
       end
 
-      def create_refund(amount:, payment_id:, reason: nil, description: nil, metadata: nil)
+      def create_refund(amount:, payment_id:, reason: nil, description: nil, metadata: nil, idempotency_key: nil)
         refund_params = {amount: amount, description: description, reason: reason, metadata: metadata}
         JustifiOperations.idempotently_request("/v1/payments/#{payment_id}/refunds",
           method: :post,
           params: refund_params,
-          headers: {})
+          headers: {},
+          idempotency_key: idempotency_key)
       end
 
       def list(params: {}, headers: {}, seller_account_id: nil, sub_account_id: nil)
@@ -38,7 +40,8 @@ module Justifi
         JustifiOperations.idempotently_request("/v1/payments/#{payment_id}",
           method: :patch,
           params: params,
-          headers: {})
+          headers: {},
+          idempotency_key: idempotency_key)
       end
 
       def capture(payment_id:, amount: nil, headers: {}, idempotency_key: nil)
@@ -46,7 +49,8 @@ module Justifi
         JustifiOperations.idempotently_request("/v1/payments/#{payment_id}/capture",
           method: :post,
           params: params,
-          headers: {})
+          headers: {},
+          idempotency_key: idempotency_key)
       end
 
       def balance_transactions(payment_id:, params: {}, headers: {})
