@@ -83,5 +83,35 @@ RSpec.describe Justifi::Dispute do
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+
+      before do
+        Stubs::Dispute.success_update(update_params, dispute_id, idempotency_key: idempotency_key)
+      end
+
+      let(:updated_dispute) do
+        subject.send(
+          :update,
+          dispute_id: dispute_id,
+          params: update_params,
+          idempotency_key: idempotency_key
+        )
+      end
+
+      let(:justifi_object) { updated_dispute }
+
+      let(:update_params) {
+        {
+          metadata: {"meta-id": "meta_12aac"}
+        }
+      }
+
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
   end
 end

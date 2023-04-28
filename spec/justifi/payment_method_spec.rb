@@ -122,5 +122,44 @@ RSpec.describe Justifi::PaymentMethod do
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+
+      before do
+        Stubs::PaymentMethod.success_update(card_params, token, idempotency_key: idempotency_key)
+      end
+
+      let(:updated_payment_method) do
+        subject.send(
+          :update,
+          token: token,
+          card_params: card_params,
+          idempotency_key: idempotency_key
+        )
+      end
+      let(:justifi_object) { updated_payment_method }
+
+      let(:card_params) {
+        {
+          card: {
+            month: 5,
+            year: 2042,
+            address_line1: "123 Fake St",
+            address_line2: "Suite 101",
+            address_city: "Cityville",
+            address_state: "MN",
+            address_postal_code: 55555,
+            address_country: "US",
+            metadata: {}
+          }
+        }
+      }
+
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
   end
 end
