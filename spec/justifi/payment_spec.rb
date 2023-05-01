@@ -121,6 +121,20 @@ RSpec.describe Justifi::Payment do
         expect(justifi_object.raw_response.http_status).to eq(201)
       end
     end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+      let(:created_payment) { subject.send(:create, params: payment_params, idempotency_key: idempotency_key) }
+
+      before do
+        Stubs::Payment.success_create(payment_params, idempotency_key: idempotency_key)
+      end
+
+      it do
+        expect(created_payment).to be_a(Justifi::JustifiObject)
+        expect(created_payment.raw_response.http_status).to eq(201)
+      end
+    end
   end
 
   describe "#list" do
@@ -160,22 +174,53 @@ RSpec.describe Justifi::Payment do
   end
 
   describe "#update" do
-    before do
-      Stubs::Payment.success_create(payment_params)
-      Stubs::Payment.success_update(update_params, created_payment.id)
+    context "with valid params" do
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_update(update_params, created_payment.id)
+      end
+
+      let(:updated_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
+      let(:justifi_object) { updated_payment }
+
+      let(:update_params) {
+        {
+          metadata: {"meta-id": "meta_12aac"},
+          description: nil
+        }
+      }
+
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
     end
 
-    let(:updated_payment) { subject.send(:update, payment_id: payment_id, params: update_params) }
-    let(:justifi_object) { updated_payment }
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
 
-    let(:update_params) {
-      {
-        metadata: {"meta-id": "meta_12aac"},
-        description: nil
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_update(update_params, created_payment.id, idempotency_key: idempotency_key)
+      end
+
+      let(:updated_payment) do
+        subject.send(
+          :update,
+          payment_id: payment_id,
+          params: update_params,
+          idempotency_key: idempotency_key
+        )
+      end
+      let(:justifi_object) { updated_payment }
+
+      let(:update_params) {
+        {
+          metadata: {"meta-id": "meta_12aac"},
+          description: nil
+        }
       }
-    }
 
-    context "with valid params" do
       it do
         expect(justifi_object).to be_a(Justifi::JustifiObject)
         expect(justifi_object.raw_response.http_status).to eq(200)
@@ -194,6 +239,29 @@ RSpec.describe Justifi::Payment do
     let(:amount) { 2000 }
 
     context "with valid params" do
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(201)
+      end
+    end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+      let(:captured_payment) do
+        subject.send(
+          :capture,
+          payment_id: payment_id,
+          amount: amount,
+          idempotency_key: idempotency_key
+        )
+      end
+      let(:justifi_object) { captured_payment }
+
+      before do
+        Stubs::Payment.success_create(payment_params)
+        Stubs::Payment.success_capture(amount, payment_id, idempotency_key: idempotency_key)
+      end
+
       it do
         expect(justifi_object).to be_a(Justifi::JustifiObject)
         expect(justifi_object.raw_response.http_status).to eq(201)

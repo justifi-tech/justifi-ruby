@@ -23,7 +23,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  def headers(sub_account_id: nil, seller_account_id: nil, params: nil)
+  def headers(sub_account_id: nil, seller_account_id: nil, params: nil, idempotency_key: nil)
     headers = DEFAULT_HEADERS.dup
 
     if seller_account_id
@@ -31,6 +31,7 @@ RSpec.configure do |config|
       headers["Seller-Account"] = seller_account_id
     end
     headers["Sub-Account"] = sub_account_id if sub_account_id
+    headers["Idempotency-Key"] = idempotency_key if idempotency_key
 
     headers
   end

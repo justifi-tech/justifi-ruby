@@ -27,11 +27,12 @@ module Justifi
           headers)
       end
 
-      def update(token:, card_params:, headers: {})
+      def update(token:, card_params:, headers: {}, idempotency_key: nil)
         JustifiOperations.idempotently_request("/v1/payment_methods/#{token}",
           method: :patch,
           params: card_params,
-          headers: {})
+          headers: {},
+          idempotency_key: idempotency_key)
       end
     end
   end

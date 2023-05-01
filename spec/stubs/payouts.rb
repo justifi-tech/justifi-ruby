@@ -96,7 +96,7 @@ module Stubs
           .to_return(status: 200, body: response_body, headers: {})
       end
 
-      def success_update(params, payout_id)
+      def success_update(params, payout_id, idempotency_key: nil)
         response_body = {
           id: 1,
           type: "payout",
@@ -135,8 +135,11 @@ module Stubs
           page_info: nil
         }.to_json
 
+        headers = DEFAULT_HEADERS
+        headers = headers.merge({"Idempotency-Key" => idempotency_key}) if idempotency_key
+
         WebMock.stub_request(:patch, "#{Justifi.api_url}/v1/payouts/#{payout_id}")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers)
           .to_return(status: 200, body: response_body, headers: {})
       end
     end

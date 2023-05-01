@@ -78,5 +78,29 @@ RSpec.describe Justifi::Refund do
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+
+      before do
+        Stubs::Payment.success_refund(refund_params.dup, idempotency_key: idempotency_key)
+        Stubs::Refund.success_update(update_params, created_refund.id)
+      end
+
+      let(:updated_refund) do
+        subject.send(
+          :update,
+          refund_id: refund_id,
+          params: update_params,
+          idempotency_key: idempotency_key
+        )
+      end
+      let(:justifi_object) { updated_refund }
+
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
   end
 end

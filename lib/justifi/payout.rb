@@ -20,7 +20,8 @@ module Justifi
         JustifiOperations.idempotently_request("/v1/payouts/#{payout_id}",
           method: :patch,
           params: params,
-          headers: {})
+          headers: {},
+          idempotency_key: idempotency_key)
       end
     end
   end

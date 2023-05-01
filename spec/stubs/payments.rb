@@ -1,7 +1,7 @@
 module Stubs
   class Payment
     class << self
-      def success_create(params)
+      def success_create(params, idempotency_key: nil)
         response_body = {
           id: "py_5biOSnr2Ox0nThH9ppKwPY",
           type: "payment",
@@ -32,11 +32,11 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
-          .with(body: params.to_json, headers: headers(params: params))
+          .with(body: params.to_json, headers: headers(params: params, idempotency_key: idempotency_key))
           .to_return(status: 201, body: response_body, headers: {})
       end
 
-      def success_update(params, payment_id)
+      def success_update(params, payment_id, idempotency_key: nil)
         response_body = {
           id: "py_5biOSnr2Ox0nThH9ppKwPY",
           type: "payment",
@@ -66,8 +66,11 @@ module Stubs
           }
         }.to_json
 
+        headers = DEFAULT_HEADERS
+        headers = headers.merge({"Idempotency-Key" => idempotency_key}) if idempotency_key
+
         WebMock.stub_request(:patch, "#{Justifi.api_url}/v1/payments/#{payment_id}")
-          .with(body: params.to_json, headers: DEFAULT_HEADERS)
+          .with(body: params.to_json, headers: headers)
           .to_return(status: 200, body: response_body, headers: {})
       end
 
@@ -77,7 +80,7 @@ module Stubs
           .to_return(status: 404, body: "{}", headers: {})
       end
 
-      def success_capture(amount, payment_id)
+      def success_capture(amount, payment_id, idempotency_key: nil)
         params = {amount: amount}
         response_body = {
           id: 1,
@@ -124,11 +127,11 @@ module Stubs
         }.to_json
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments/#{payment_id}/capture")
-          .with(body: params.to_json, headers: headers(params: params))
+          .with(body: params.to_json, headers: headers(params: params, idempotency_key: idempotency_key))
           .to_return(status: 201, body: response_body, headers: {})
       end
 
-      def success_refund(params)
+      def success_refund(params, idempotency_key: nil)
         response_body = {
           id: "re_3DHmLegl8Sk9zfH3elQkCF",
           type: "refund",
@@ -149,7 +152,7 @@ module Stubs
         payment_id = params.delete(:payment_id)
 
         WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments/#{payment_id}/refunds")
-          .with(body: params.to_json, headers: headers(params: params))
+          .with(body: params.to_json, headers: headers(params: params, idempotency_key: idempotency_key))
           .to_return(status: 201, body: response_body, headers: {})
       end
 

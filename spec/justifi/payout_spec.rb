@@ -65,5 +65,34 @@ RSpec.describe Justifi::Payout do
         expect(justifi_object.raw_response.http_status).to eq(200)
       end
     end
+
+    context "with idempotency key" do
+      let(:idempotency_key) { SecureRandom.uuid }
+
+      before do
+        Stubs::Payout.success_update(update_params, payout_id, idempotency_key: idempotency_key)
+      end
+
+      let(:updated_payout) do
+        subject.send(
+          :update,
+          payout_id: payout_id,
+          params: update_params,
+          idempotency_key: idempotency_key
+        )
+      end
+      let(:justifi_object) { updated_payout }
+
+      let(:update_params) {
+        {
+          metadata: {"meta-id": "meta_12aac"}
+        }
+      }
+
+      it do
+        expect(justifi_object).to be_a(Justifi::JustifiObject)
+        expect(justifi_object.raw_response.http_status).to eq(200)
+      end
+    end
   end
 end
