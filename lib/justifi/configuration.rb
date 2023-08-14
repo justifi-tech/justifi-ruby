@@ -12,6 +12,7 @@ module Justifi
     attr_accessor :environment
     attr_accessor :max_attempts
     attr_accessor :cache
+    attr_accessor :custom_api_url
 
     def self.setup
       new.tap do |instance|
@@ -45,7 +46,7 @@ module Justifi
     def api_url
       case environment
       when "staging"
-        ENV["API_STAGING_BASE_URL"]
+        ENV["API_STAGING_BASE_URL"] || custom_api_url
       else
         API_BASE_URL
       end
