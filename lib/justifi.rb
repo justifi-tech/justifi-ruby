@@ -43,6 +43,7 @@ module Justifi
     def_delegators :@config, :client_id=, :client_id
     def_delegators :@config, :client_secret=, :client_secret
     def_delegators :@config, :access_token=, :access_token
+    def_delegators :@config, :custom_api_url=, :custom_api_url
     def_delegators :@config, :credentials, :credentials
     def_delegators :@config, :credentials=, :credentials=
     def_delegators :@config, :max_attempts=, :max_attempts
