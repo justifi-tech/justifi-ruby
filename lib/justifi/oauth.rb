@@ -7,7 +7,7 @@ module Justifi
 
       def self.execute_post_request(path, params, headers)
         params = Util.normalize_params(params.merge(Justifi.credentials))
-        super(path, params, headers)
+        super
       end
     end
 
@@ -25,7 +25,7 @@ module Justifi
 
       def get_web_component_token(resources:)
         params = {resources: resources}
-        response = JustifiOperations.execute_post_request("/v1/web_component_tokens", params, {})
+        JustifiOperations.execute_post_request("/v1/web_component_tokens", params, {})
       end
     end
   end

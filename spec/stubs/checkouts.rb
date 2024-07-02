@@ -12,11 +12,11 @@ module Stubs
             payment_amount: 10000,
             payment_currency: "usd",
             payment_description: "my_order_xyz",
-            payment_methods: [ ],
+            payment_methods: [],
             payment_method_group_id: "pmg_xyz",
             status: "created completed",
             successful_payment_id: "py_xyz",
-            payment_settings: { },
+            payment_settings: {},
             created_at: "2024-01-01T12:00:00Z",
             updated_at: "2024-01-01T12:00:00Z"
           },
@@ -40,11 +40,11 @@ module Stubs
               payment_amount: 10000,
               payment_currency: "usd",
               payment_description: "my_order_xyz",
-              payment_methods: [ ],
+              payment_methods: [],
               payment_method_group_id: "pmg_xyz",
               status: "created completed",
               successful_payment_id: "py_xyz",
-              payment_settings: { },
+              payment_settings: {},
               created_at: "2024-01-01T12:00:00Z",
               updated_at: "2024-01-01T12:00:00Z"
             }
@@ -67,19 +67,19 @@ module Stubs
           id: 1,
           type: "checkout",
           data: {
-              id: "cho_xyz",
-              account_id: "acc_xyz",
-              platform_account_id: "acc_xyz",
-              payment_amount: 10000,
-              payment_currency: "usd",
-              payment_description: "my_order_xyz",
-              payment_methods: [ ],
-              payment_method_group_id: "pmg_xyz",
-              status: "created completed",
-              successful_payment_id: "py_xyz",
-              payment_settings: { },
-              created_at: "2024-01-01T12:00:00Z",
-              updated_at: "2024-01-01T12:00:00Z"
+            id: "cho_xyz",
+            account_id: "acc_xyz",
+            platform_account_id: "acc_xyz",
+            payment_amount: 10000,
+            payment_currency: "usd",
+            payment_description: "my_order_xyz",
+            payment_methods: [],
+            payment_method_group_id: "pmg_xyz",
+            status: "created completed",
+            successful_payment_id: "py_xyz",
+            payment_settings: {},
+            created_at: "2024-01-01T12:00:00Z",
+            updated_at: "2024-01-01T12:00:00Z"
           },
           page_info: nil
         }.to_json
@@ -160,4 +160,3 @@ module Stubs
     end
   end
 end
-

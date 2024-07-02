@@ -45,4 +45,3 @@ module Justifi
     end
   end
 end
-

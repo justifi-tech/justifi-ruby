@@ -3,8 +3,8 @@
 RSpec.describe Justifi::Checkout do
   before do
     Justifi.setup(client_id: ENV["CLIENT_ID"],
-                  client_secret: ENV["CLIENT_SECRET"],
-                  environment: ENV["ENVIRONMENT"])
+      client_secret: ENV["CLIENT_SECRET"],
+      environment: ENV["ENVIRONMENT"])
     Stubs::OAuth.success_get_token
   end
 
@@ -122,7 +122,7 @@ RSpec.describe Justifi::Checkout do
     let(:justifi_object) { completed_checkout }
     let(:sub_account_id) { "fake:sub_account_id" }
     let(:checkout_params) do
-      { payment_token: "pm_asdfakjsd23" }
+      {payment_token: "pm_asdfakjsd23"}
     end
 
     context "with valid params" do
@@ -137,4 +137,3 @@ RSpec.describe Justifi::Checkout do
     end
   end
 end
-
