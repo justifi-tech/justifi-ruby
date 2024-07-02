@@ -1,3 +1,4 @@
+require "stubs/checkouts"
 require "stubs/refunds"
 require "stubs/payouts"
 require "stubs/balance_transactions"
