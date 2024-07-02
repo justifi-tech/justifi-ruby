@@ -22,6 +22,11 @@ module Justifi
 
         Justifi.cache.set_and_return(:access_token, response.access_token)
       end
+
+      def get_web_component_token(resources:)
+        params = {resources: resources}
+        response = JustifiOperations.execute_post_request("/v1/web_component_tokens", params, {})
+      end
     end
   end
 end

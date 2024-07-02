@@ -33,6 +33,14 @@ module Stubs
           .with(body: body, headers: DEFAULT_HEADERS)
           .to_return(status: 404, body: response_body, headers: {})
       end
+
+      def success_get_web_component_token
+        response_body = {access_token: "valid_wc_token"}.to_json
+        body = {resources: ["write:checkout:cho_xyz", "write:tokenize:acc_xyz"]}
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/web_component_tokens")
+          .with(body: body, headers: DEFAULT_HEADERS)
+          .to_return(status: 200, body: response_body, headers: {})
+      end
     end
   end
 end
