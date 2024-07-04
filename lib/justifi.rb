@@ -2,6 +2,7 @@
 
 require "forwardable"
 require "securerandom"
+require "ostruct"
 require "justifi/api_operations"
 
 require "justifi/util"
@@ -17,6 +18,7 @@ require "justifi/oauth"
 require "justifi/sub_account"
 require "justifi/payment"
 require "justifi/refund"
+require "justifi/checkout"
 require "justifi/payout"
 require "justifi/checkout_session"
 require "justifi/balance_transaction"
