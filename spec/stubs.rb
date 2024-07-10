@@ -7,6 +7,7 @@ require "stubs/payment_intents"
 require "stubs/payment_methods"
 require "stubs/payments"
 require "stubs/sub_account"
+require "stubs/business"
 require "stubs/checkout_session"
 
 module Stubs

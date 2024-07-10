@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Justifi
-  class Business
+  module Business
     class << self
       def create(params:, headers: {})
         JustifiOperations.execute_post_request("/v1/entities/business", params, headers)

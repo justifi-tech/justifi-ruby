@@ -45,7 +45,7 @@ RSpec.describe Justifi::Business do
       let(:create_params) { {} }
 
       it "raises an error" do
-        expect { created_sub_account }.to raise_error(Justifi::InvalidHttpResponseError)
+        expect { created_business }.to raise_error(Justifi::InvalidHttpResponseError)
       end
     end
   end
@@ -91,6 +91,7 @@ RSpec.describe Justifi::Business do
       Stubs::Business.success_update(update_params, business_id)
     end
 
+    let(:business_id) { 1 }
     let(:updated_business) { subject.send(:update, business_id: business_id, params: update_params) }
     let(:justifi_object) { updated_business }
 
