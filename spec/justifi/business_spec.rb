@@ -16,7 +16,7 @@ RSpec.describe Justifi::Business do
       doing_business_as: "Best Business",
       business_type: "for_profit",
       business_structure: "sole_proprietorship",
-      classification: "government limited non_profit partnership corporation public_company sole_proprietor",
+      classification: "government",
       industry: "Big Business",
       mcc: "8021",
       tax_id: "string",
