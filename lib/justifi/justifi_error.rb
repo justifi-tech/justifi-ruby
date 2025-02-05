@@ -2,7 +2,7 @@
 
 module Justifi
   class Error < StandardError
-    attr_reader :response_code
+    attr_reader :response_code, :response
 
     def initialize(response_code, msg, response: nil)
       super(msg)
