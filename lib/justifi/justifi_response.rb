@@ -58,6 +58,8 @@ module Justifi
   # the Justifi API.
   class JustifiResponse
     include JustifiResponseBase
+    extend Gem::Deprecate
+
     # The data contained by the HTTP body of the response deserialized from
     # JSON.
     attr_accessor :data
@@ -71,6 +73,9 @@ module Justifi
     # The boolean flag based on Net::HTTPSuccess
     attr_accessor :success
 
+    # The error hash from JustiFi API
+    attr_accessor :error_details
+
     # Initializes a JustifiResponse object from a Net::HTTP::HTTPResponse
     # object.
     def self.from_net_http(http_resp)
@@ -79,6 +84,7 @@ module Justifi
       resp.http_body = http_resp.body
       resp.success = http_resp.is_a? Net::HTTPSuccess
       resp.error_message = resp.data.dig(:error, :message)
+      resp.error_details = resp.data.dig(:error)
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
     end

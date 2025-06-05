@@ -135,6 +135,40 @@ RSpec.describe Justifi::Payment do
         expect(created_payment.raw_response.http_status).to eq(201)
       end
     end
+
+    context "fails with sub_account_header_required error" do
+      before { Stubs::Payment.fail_create_sub_account_header_required }
+
+      it "raises Justifi::Error with complete error details" do
+        expect { created_payment }.to raise_error(Justifi::Error) do |error|
+          # Test that original message still works
+          expect(error.message).to eq("Missing required header: Sub-Account")
+
+          # Test that enhanced error details are accessible
+          expect(error.error_details).to be_a(Hash)
+          expect(error.error_details[:param]).to eq("base")
+          expect(error.error_details[:code]).to eq("sub_account_header_required")
+          expect(error.error_details[:message]).to eq("Missing required header: Sub-Account")
+        end
+      end
+    end
+
+    context "fails with not_authorized error" do
+      before { Stubs::Payment.fail_create_not_authorized }
+
+      it "raises Justifi::Error with error details when param is not present" do
+        expect { created_payment }.to raise_error(Justifi::Error) do |error|
+          # Test that original message still works
+          expect(error.message).to eq("Not Authorized")
+
+          # Test that enhanced error details are accessible
+          expect(error.error_details).to be_a(Hash)
+          expect(error.error_details[:code]).to eq("not_authorized")
+          expect(error.error_details[:message]).to eq("Not Authorized")
+          expect(error.error_details[:param]).to be_nil # param not present in this error type
+        end
+      end
+    end
   end
 
   describe "#list" do

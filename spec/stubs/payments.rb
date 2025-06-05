@@ -299,6 +299,31 @@ module Stubs
           .with(headers: DEFAULT_HEADERS)
           .to_return(status: 200, body: response_body, headers: {})
       end
+
+      def fail_create_sub_account_header_required
+        error_response = {
+          "error" => {
+            "param" => "base",
+            "code" => "sub_account_header_required",
+            "message" => "Missing required header: Sub-Account"
+          }
+        }.to_json
+
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
+          .to_return(status: 400, body: error_response, headers: {})
+      end
+
+      def fail_create_not_authorized
+        error_response = {
+          "error" => {
+            "code" => "not_authorized",
+            "message" => "Not Authorized"
+          }
+        }.to_json
+
+        WebMock.stub_request(:post, "#{Justifi.api_url}/v1/payments")
+          .to_return(status: 401, body: error_response, headers: {})
+      end
     end
   end
 end
