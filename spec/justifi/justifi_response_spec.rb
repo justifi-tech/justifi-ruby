@@ -41,8 +41,8 @@ RSpec.describe Justifi::JustifiResponse do
         response = described_class.from_net_http(mock_response)
 
         expect(response.data).to be_nil
-        expect(response.error_message).to be_nil
-        expect(response.error_details).to be_nil
+        expect(response.error_message).to eq("Unexpected request response")
+        expect(response.error_details).to eq("internal_server_error")
         expect(response.success).to be false
         expect(response.http_body).to eq(body)
       end
@@ -57,8 +57,8 @@ RSpec.describe Justifi::JustifiResponse do
         response = described_class.from_net_http(mock_response)
 
         expect(response.data).to be_nil
-        expect(response.error_message).to be_nil
-        expect(response.error_details).to be_nil
+        expect(response.error_message).to eq("Unexpected request response")
+        expect(response.error_details).to eq("internal_server_error")
         expect(response.success).to be true
         expect(response.http_body).to eq(body)
       end
@@ -73,8 +73,8 @@ RSpec.describe Justifi::JustifiResponse do
         response = described_class.from_net_http(mock_response)
 
         expect(response.data).to be_nil
-        expect(response.error_message).to be_nil
-        expect(response.error_details).to be_nil
+        expect(response.error_message).to eq("Unexpected request response")
+        expect(response.error_details).to eq("internal_server_error")
         expect(response.success).to be false
         expect(response.http_body).to be_nil
       end
@@ -89,8 +89,8 @@ RSpec.describe Justifi::JustifiResponse do
         response = described_class.from_net_http(mock_response)
 
         expect(response.data).to eq({data: {id: "123"}})
-        expect(response.error_message).to be_nil
-        expect(response.error_details).to be_nil
+        expect(response.error_message).to eq("Unexpected request response")
+        expect(response.error_details).to eq("internal_server_error")
         expect(response.success).to be true
         expect(response.http_body).to eq(body)
       end
@@ -105,7 +105,7 @@ RSpec.describe Justifi::JustifiResponse do
         response = described_class.from_net_http(mock_response)
 
         expect(response.data).to eq({error: {code: "400"}})
-        expect(response.error_message).to be_nil
+        expect(response.error_message).to eq("Unexpected request response")
         expect(response.error_details).to eq({code: "400"})
         expect(response.success).to be false
         expect(response.http_body).to eq(body)

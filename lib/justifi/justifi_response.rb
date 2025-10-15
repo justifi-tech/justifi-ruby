@@ -89,8 +89,8 @@ module Justifi
         resp.data = nil
       end
 
-      resp.error_message = resp.data&.dig(:error, :message)
-      resp.error_details = resp.data&.dig(:error)
+      resp.error_message = resp.data&.dig(:error, :message) || "Unexpected request response"
+      resp.error_details = resp.data&.dig(:error) || "internal_server_error"
 
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
