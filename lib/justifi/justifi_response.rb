@@ -80,11 +80,18 @@ module Justifi
     # object.
     def self.from_net_http(http_resp)
       resp = JustifiResponse.new
-      resp.data = JSON.parse(http_resp.body, symbolize_names: true)
       resp.http_body = http_resp.body
       resp.success = http_resp.is_a? Net::HTTPSuccess
-      resp.error_message = resp.data.dig(:error, :message)
-      resp.error_details = resp.data.dig(:error)
+
+      begin
+        resp.data = JSON.parse(http_resp.body, symbolize_names: true) if http_resp.body
+      rescue JSON::ParserError => e
+        resp.data = nil
+      end
+
+      resp.error_message = resp.data&.dig(:error, :message)
+      resp.error_details = resp.data&.dig(:error)
+
       JustifiResponseBase.populate_for_net_http(resp, http_resp)
       resp
     end
