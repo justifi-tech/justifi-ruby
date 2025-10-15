@@ -85,7 +85,7 @@ module Justifi
 
       begin
         resp.data = JSON.parse(http_resp.body, symbolize_names: true) if http_resp.body
-      rescue JSON::ParserError => e
+      rescue JSON::ParserError
         resp.data = nil
       end
 
