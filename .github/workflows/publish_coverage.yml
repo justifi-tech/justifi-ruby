@@ -4,10 +4,16 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
 jobs:
   generate_coverage:
     name: Generate Coverage
     runs-on: ubuntu-latest
+    environment:
+      name: 'staging'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -26,6 +32,12 @@ jobs:
           ENVIRONMENT: ${{secrets.ENVIRONMENT}}
         run: bundle exec rspec
 
+      - name: Configure AWS credentials from OID
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
+
       - name: Deploy coverage to S3
         uses: zdurham/s3-upload-github-action@master
         with:
@@ -36,11 +48,13 @@ jobs:
           S3_KEY: "coverage_badge_total.svg"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
+          AWS_AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT_STAGING }}
           AWS_REGION: "us-east-1"
 
       - name: Change coverage_badge_total.svg Cache-Control
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
+          aws configure set aws_account ${{ secrets.AWS_ACCOUNT_STAGING }}
           aws configure set default.region "us-east-1"
           aws s3 cp s3://${{ secrets.AWS_STAGING_BUCKET_NAME }}/coverage_badge_total.svg s3://${{ secrets.AWS_STAGING_BUCKET_NAME }}/coverage_badge_total.svg --metadata-directive REPLACE --cache-control "max-age=0" --acl public-read --content-type "image/svg+xml"
